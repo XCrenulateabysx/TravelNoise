@@ -36,5 +36,17 @@
             android:gravity="start|top"
             android:inputType="textMultiLine" />
 
+        <Button
+            android:id="@+id/jazz"
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:text="jazz" />
+
+        <Button
+            android:id="@+id/indie"
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:text="indie" />
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

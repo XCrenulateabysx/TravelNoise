@@ -34,6 +34,26 @@
         <action
             android:id="@+id/action_scrollingIntroLocationFragment_to_navigation_home2"
             app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_scrollingIntroLocationFragment_to_jazzFragment"
+            app:destination="@id/jazzFragment" />
+        <action
+            android:id="@+id/action_scrollingIntroLocationFragment_to_indieFragment"
+            app:destination="@id/indieFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/jazzFragment"
+        android:name="com.example.travelnoise.JazzFragment"
+        android:label="fragment_jazz"
+        tools:layout="@layout/fragment_jazz" >
+        <action
+            android:id="@+id/action_jazzFragment_to_scrollingIntroLocationFragment"
+            app:destination="@id/scrollingIntroLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/indieFragment"
+        android:name="com.example.travelnoise.indieFragment"
+        android:label="fragment_indie"
+        tools:layout="@layout/fragment_indie" />
 
 </navigation>

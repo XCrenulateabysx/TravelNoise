@@ -34,6 +34,14 @@ public class ScrollingIntroLocationFragment extends Fragment {
         binding = FragmentScrollingIntroLocationBinding.inflate(inflater, container, false);
         binding.Title.setText(tempTitle);
         binding.Description.setText(tempDescription);
+        binding.jazz.setOnClickListener(v -> {
+            Navigation.findNavController(v)
+                    .navigate(R.id.action_scrollingIntroLocationFragment_to_jazzFragment);
+        });
+        binding.indie.setOnClickListener(v -> {
+            Navigation.findNavController(v)
+                    .navigate(R.id.action_scrollingIntroLocationFragment_to_indieFragment);
+        });
 
         return binding.getRoot();
     }
