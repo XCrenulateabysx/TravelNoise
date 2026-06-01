@@ -1,4 +1,4 @@
-namespace RESTAPI
+namespace RESTAPI.Models
 {
     public class WeatherForecast
     {

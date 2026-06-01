@@ -3,12 +3,15 @@ package com.example.travelnoise.ui.genre;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.travelnoise.R;
+import com.example.travelnoise.databinding.FragmentHomeBinding;
+import com.example.travelnoise.databinding.FragmentIndieBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +29,7 @@ public class indieFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private FragmentIndieBinding binding;
     public indieFragment() {
         // Required empty public constructor
     }
@@ -45,6 +49,8 @@ public class indieFragment extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
+
         return fragment;
     }
 
@@ -55,12 +61,34 @@ public class indieFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        binding = FragmentIndieBinding.inflate(inflater, container, false);
+
+        binding.button6.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+
+            bundle.putString("title", "Indie Music");
+
+            bundle.putString(
+                    "description",
+                    "Indie music focuses on independent artists."
+            );
+
+            bundle.putString(
+                    "imageURL",
+                    "https://10.0.2.2:5035/images/test.png"
+            );
+            Navigation.findNavController(v)
+                    .navigate(R.id.action_indieFragment_to_theoryFragment, bundle);
+        });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_indie, container, false);
+        return binding.getRoot();
     }
 }

@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.example.travelnoise.R;
+import com.example.travelnoise.databinding.FragmentIndieBinding;
+import com.example.travelnoise.databinding.FragmentTheoryBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +30,8 @@ public class TheoryFragment extends Fragment {
     private String mTheoryTitle;
     private String mTheoryDescription;
     private String mTheoryImageURL;
+
+    private FragmentTheoryBinding binding;
 
     public TheoryFragment() {
         // Required empty public constructor
@@ -60,13 +65,23 @@ public class TheoryFragment extends Fragment {
             mTheoryImageURL = getArguments().getString(ARG_PARAM3);
         }
 
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_theory, container, false);
+        binding = FragmentTheoryBinding.inflate(inflater, container, false);
+
+        binding.TheoryTitle.setText(mTheoryTitle);
+        binding.TheoryDescription.setText(mTheoryDescription);
+
+        String url = "http://10.0.2.2:5035/images/WTTTTTTTTTF.png";
+        Glide.with(this)
+                .load(url)
+                .into(binding.TheoryPreviewImage);
+
+
+        return binding.getRoot();
     }
 }

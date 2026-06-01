@@ -45,9 +45,18 @@
             app:destination="@id/scrollingIntroLocationFragment" />
     </fragment>
     <fragment
+        android:id="@+id/theoryFragment"
+        android:name="com.example.travelnoise.ui.music.TheoryFragment"
+        android:label="fragment_indie"
+        tools:layout="@layout/fragment_theory" />
+    <fragment
         android:id="@+id/indieFragment"
         android:name="com.example.travelnoise.ui.genre.indieFragment"
         android:label="fragment_indie"
-        tools:layout="@layout/fragment_indie" />
+        tools:layout="@layout/fragment_indie" >
+        <action
+            android:id="@+id/action_indieFragment_to_theoryFragment"
+            app:destination="@id/theoryFragment" />
+    </fragment>
 
 </navigation>
