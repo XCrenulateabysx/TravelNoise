@@ -16,12 +16,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.travelnoise.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.travelnoise.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
@@ -43,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/jazzFragment"
-        android:name="com.example.travelnoise.JazzFragment"
+        android:name="com.example.travelnoise.ui.genre.JazzFragment"
         android:label="fragment_jazz"
         tools:layout="@layout/fragment_jazz" >
         <action
@@ -51,9 +45,18 @@
             app:destination="@id/scrollingIntroLocationFragment" />
     </fragment>
     <fragment
-        android:id="@+id/indieFragment"
-        android:name="com.example.travelnoise.indieFragment"
+        android:id="@+id/theoryFragment"
+        android:name="com.example.travelnoise.ui.music.TheoryFragment"
         android:label="fragment_indie"
-        tools:layout="@layout/fragment_indie" />
+        tools:layout="@layout/fragment_theory" />
+    <fragment
+        android:id="@+id/indieFragment"
+        android:name="com.example.travelnoise.ui.genre.indieFragment"
+        android:label="fragment_indie"
+        tools:layout="@layout/fragment_indie" >
+        <action
+            android:id="@+id/action_indieFragment_to_theoryFragment"
+            app:destination="@id/theoryFragment" />
+    </fragment>
 
 </navigation>

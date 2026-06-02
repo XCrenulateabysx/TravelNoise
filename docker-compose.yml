@@ -1,0 +1,10 @@
+services:
+  restapi:
+    image: ${DOCKER_REGISTRY-}restapi
+    build:
+      context: .
+      dockerfile: RESTAPI/Dockerfile
+    ports:
+      - "5035:8080"
+    environment:
+      ConnectionStrings__DefaultConnection: ${DB_CONNECTION}
