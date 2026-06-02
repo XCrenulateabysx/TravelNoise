@@ -4,21 +4,22 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.travelnoise.R;
-import com.example.travelnoise.ScrollingIntroLocationFragment;
 import com.example.travelnoise.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+
+    private static final String ARG_TITLE = "title";
+    private static final String ARG_DESCRIPTION = "description";
+    private static final String ARG_IMGURL = "imageURL";
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -28,8 +29,18 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
         binding.imageButton.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+
+            bundle.putString(ARG_TITLE, "Indie Music");
+
+            bundle.putString(
+                    ARG_DESCRIPTION,
+                    "Indie music focuses on independent artists."
+            );
+
+            bundle.putString(ARG_IMGURL, "http://10.0.2.2:5035/images/WTTTTTTTTTF.png");
             Navigation.findNavController(v)
-                    .navigate(R.id.action_navigation_home_to_scrollingIntroLocationFragment);
+                    .navigate(R.id.action_navigation_home_to_CityDescriptionFragment, bundle);
         });
 
         return binding.getRoot();

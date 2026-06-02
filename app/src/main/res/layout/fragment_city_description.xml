@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScrollingIntroLocationFragment">
+    tools:context=".ui.City.CityDescriptionFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
