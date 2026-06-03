@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.navigation.Navigation;
 import com.bumptech.glide.Glide;
 import com.example.travelnoise.R;
 import com.example.travelnoise.databinding.FragmentCityDescriptionBinding;
+import com.google.android.material.button.MaterialButton;
 
 public class CityDescriptionFragment extends Fragment {
 
@@ -49,8 +51,10 @@ public class CityDescriptionFragment extends Fragment {
         binding.Description.setText(mGenreDescription);
 
 
+        MaterialButton testbutton = new MaterialButton(requireContext());
+        testbutton.setText("Test dynamic button");
 
-
+        binding.ButtonLayout.addView(testbutton);
         Glide.with(this)
                 .load(mGenreURL)
                 .into(binding.imageView5);
