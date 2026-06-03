@@ -16,9 +16,9 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.travelnoise.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.travelnoise.ui.dashboard.DashboardFragment"
+        android:label="@string/title_vote"
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/CityDescriptionFragment"

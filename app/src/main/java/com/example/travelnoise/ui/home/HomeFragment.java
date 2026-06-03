@@ -1,6 +1,7 @@
 package com.example.travelnoise.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-
+        Log.d("NAV", "HomeFragment loaded");
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
         binding.imageButton.setOnClickListener(v -> {
