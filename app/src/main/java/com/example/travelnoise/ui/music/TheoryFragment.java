@@ -37,24 +37,7 @@ public class TheoryFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param theoryTitle Parameter 1.
-     * @param theoryDescription Parameter 2.
-     * @return A new instance of fragment TheoryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TheoryFragment newInstance(String theoryTitle, String theoryDescription, String theoryImageURL) {
-        TheoryFragment fragment = new TheoryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, theoryTitle);
-        args.putString(ARG_PARAM2, theoryDescription);
-        args.putString(ARG_PARAM3, theoryImageURL);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
