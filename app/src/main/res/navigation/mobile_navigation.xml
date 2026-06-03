@@ -11,20 +11,20 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_navigation_home_to_scrollingIntroLocationFragment"
-            app:destination="@id/scrollingIntroLocationFragment" />
+            android:id="@+id/action_navigation_home_to_CityDescriptionFragment"
+            app:destination="@id/CityDescriptionFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.travelnoise.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.travelnoise.ui.dashboard.DashboardFragment"
+        android:label="@string/title_vote"
         tools:layout="@layout/fragment_notifications" />
     <fragment
-        android:id="@+id/scrollingIntroLocationFragment"
-        android:name="com.example.travelnoise.ScrollingIntroLocationFragment"
+        android:id="@+id/CityDescriptionFragment"
+        android:name="com.example.travelnoise.ui.City.CityDescriptionFragment"
         android:label="Location"
-        tools:layout="@layout/fragment_scrolling_intro_location" >
+        tools:layout="@layout/fragment_city_description">
         <action
             android:id="@+id/action_scrollingIntroLocationFragment_to_navigation_home2"
             app:destination="@id/navigation_home" />
@@ -42,7 +42,7 @@
         tools:layout="@layout/fragment_jazz" >
         <action
             android:id="@+id/action_jazzFragment_to_scrollingIntroLocationFragment"
-            app:destination="@id/scrollingIntroLocationFragment" />
+            app:destination="@id/CityDescriptionFragment" />
     </fragment>
     <fragment
         android:id="@+id/theoryFragment"
