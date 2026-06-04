@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace RESTAPI.Migrations
 {
     [DbContext(typeof(RESTAPIContext))]
-    [Migration("20260604160034_seeding")]
-    partial class seeding
+    [Migration("20260604215553_LPonetoone")]
+    partial class LPonetoone
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,23 +57,6 @@ namespace RESTAPI.Migrations
                     b.HasKey("id");
 
                     b.ToTable("genre", "public");
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            genrename = "Adventure"
-                        },
-                        new
-                        {
-                            id = 2,
-                            genrename = "Puzzle"
-                        },
-                        new
-                        {
-                            id = 3,
-                            genrename = "Racing"
-                        });
                 });
 
             modelBuilder.Entity("RESTAPI.Models.Location", b =>
@@ -92,37 +75,26 @@ namespace RESTAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("genreid")
+                    b.Property<string>("buttonX")
+                        .HasColumnType("text");
+
+                    b.Property<string>("buttonY")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("genreid")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("pageid")
                         .HasColumnType("integer");
 
                     b.HasKey("id");
 
                     b.HasIndex("genreid");
 
-                    b.ToTable("Location", "public");
+                    b.HasIndex("pageid")
+                        .IsUnique();
 
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            RegionDescription = "World exploration and quests",
-                            RegionName = "Adventure Region",
-                            genreid = 1
-                        },
-                        new
-                        {
-                            id = 2,
-                            RegionDescription = "Logic challenges",
-                            RegionName = "Puzzle Region",
-                            genreid = 2
-                        },
-                        new
-                        {
-                            id = 3,
-                            RegionDescription = "Speed and competition",
-                            RegionName = "Racing Region",
-                            genreid = 3
-                        });
+                    b.ToTable("Location", "public");
                 });
 
             modelBuilder.Entity("RESTAPI.Models.Page", b =>
@@ -198,29 +170,6 @@ namespace RESTAPI.Migrations
                     b.HasKey("id");
 
                     b.ToTable("theorypages", "public");
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            description = "Understanding movement in games",
-                            imageurl = "http://10.0.2.2:5035/images/WTTTTTTTF.png",
-                            title = "Physics Basics"
-                        },
-                        new
-                        {
-                            id = 2,
-                            description = "How game AI reacts to players",
-                            imageurl = "http://10.0.2.2:5035/images/WTTTTTTTF.png",
-                            title = "AI Behavior"
-                        },
-                        new
-                        {
-                            id = 3,
-                            description = "Designing engaging game levels",
-                            imageurl = "http://10.0.2.2:5035/images/WTTTTTTTF.png",
-                            title = "Level Design"
-                        });
                 });
 
             modelBuilder.Entity("RESTAPI.Models.User", b =>
@@ -240,26 +189,6 @@ namespace RESTAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User", "public");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            Password = "$2a$11$hash_admin",
-                            Username = "admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Password = "$2a$11$hash_player1",
-                            Username = "player1"
-                        },
-                        new
-                        {
-                            Id = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-                            Password = "$2a$11$hash_tester",
-                            Username = "tester"
-                        });
                 });
 
             modelBuilder.Entity("RESTAPI.Models.Vote", b =>
@@ -300,11 +229,15 @@ namespace RESTAPI.Migrations
                 {
                     b.HasOne("RESTAPI.Models.Genre", "Genre")
                         .WithMany()
-                        .HasForeignKey("genreid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("genreid");
+
+                    b.HasOne("RESTAPI.Models.Page", "Page")
+                        .WithOne("location")
+                        .HasForeignKey("RESTAPI.Models.Location", "pageid");
 
                     b.Navigation("Genre");
+
+                    b.Navigation("Page");
                 });
 
             modelBuilder.Entity("RESTAPI.Models.Page", b =>
@@ -354,6 +287,11 @@ namespace RESTAPI.Migrations
                     b.Navigation("Page");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RESTAPI.Models.Page", b =>
+                {
+                    b.Navigation("location");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace RESTAPI.Migrations
 {
     [DbContext(typeof(RESTAPIContext))]
-    partial class RESTAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20260604163736_LocationUpdate")]
+    partial class LocationUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,18 +81,12 @@ namespace RESTAPI.Migrations
                     b.Property<string>("buttonY")
                         .HasColumnType("text");
 
-                    b.Property<int?>("genreid")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("pageid")
+                    b.Property<int>("genreid")
                         .HasColumnType("integer");
 
                     b.HasKey("id");
 
                     b.HasIndex("genreid");
-
-                    b.HasIndex("pageid")
-                        .IsUnique();
 
                     b.ToTable("Location", "public");
                 });
@@ -226,15 +223,11 @@ namespace RESTAPI.Migrations
                 {
                     b.HasOne("RESTAPI.Models.Genre", "Genre")
                         .WithMany()
-                        .HasForeignKey("genreid");
-
-                    b.HasOne("RESTAPI.Models.Page", "Page")
-                        .WithOne("location")
-                        .HasForeignKey("RESTAPI.Models.Location", "pageid");
+                        .HasForeignKey("genreid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Genre");
-
-                    b.Navigation("Page");
                 });
 
             modelBuilder.Entity("RESTAPI.Models.Page", b =>
@@ -284,11 +277,6 @@ namespace RESTAPI.Migrations
                     b.Navigation("Page");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("RESTAPI.Models.Page", b =>
-                {
-                    b.Navigation("location");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RESTAPI.Models;
-using System.Data.Entity;
 
 namespace RESTAPI.Controllers
 {
@@ -21,5 +21,24 @@ namespace RESTAPI.Controllers
             var TheoryPages = await _context.Locations.ToListAsync();
             return Ok(TheoryPages);
         }
+
+        [HttpGet("GetRegions")]
+        public async Task<ActionResult<IEnumerable<Location>>> GetAllRegionNames()
+        {
+            var LocationNames = await _context.Locations.Select(l => new 
+            {
+                l.id,
+                l.buttonX,
+                l.buttonY,
+                l.RegionName,
+                l.RegionDescription,
+                l.Page.PageTitle,
+                l.Page.PageDescription
+            }).ToListAsync();
+
+            return Ok(LocationNames);
+        }
+
+
     }
 }
