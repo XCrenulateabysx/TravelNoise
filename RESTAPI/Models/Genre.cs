@@ -10,6 +10,5 @@ namespace RESTAPI.Models
 
         public string? genrename { get; set; }
 
-        public ICollection<Page>? Pages { get; set; }
     }
 }

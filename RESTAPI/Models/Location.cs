@@ -8,6 +8,10 @@ namespace RESTAPI.Models
     {
         [Key]
         public int id { get; set; }
+        [Required]
+        public string RegionName { get; set; }
+        [Required]
+        public string RegionDescription { get; set; }
 
         public int genreid { get; set; }
 
