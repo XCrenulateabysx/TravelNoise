@@ -135,3 +135,4 @@ src/.vs/config/applicationhost.config
 .idea/
 /RESTAPI/environment.env
 /RESTAPI/.env
+.idea/misc.xml
