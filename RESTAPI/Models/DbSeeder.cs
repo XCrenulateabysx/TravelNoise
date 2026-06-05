@@ -111,16 +111,16 @@ namespace RESTAPI.Models
                         RegionName = "Puzzle Region",
                         RegionDescription = "Logic challenges",
                         genreid = genreMap["Puzzle"],
-                        buttonX = "200px",
-                        buttonY = "200px"
+                        buttonX = "200dp",
+                        buttonY = "200dp"
                     },
                     new Location
                     {
                         RegionName = "Racing Region",
                         RegionDescription = "Speed and competition",
                         genreid = genreMap["Racing"],
-                        buttonX = "200px",
-                        buttonY = "200px"
+                        buttonX = "100dp",
+                        buttonY = "200dp"
                     }
                 );
                 db.SaveChanges();

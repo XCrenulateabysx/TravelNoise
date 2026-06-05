@@ -32,8 +32,8 @@ namespace RESTAPI.Controllers
                 l.buttonY,
                 l.RegionName,
                 l.RegionDescription,
-                l.Page.PageTitle,
-                l.Page.PageDescription
+                l.Page
+                
             }).ToListAsync();
 
             return Ok(LocationNames);

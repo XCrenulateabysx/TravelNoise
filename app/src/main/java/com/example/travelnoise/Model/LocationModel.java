@@ -8,7 +8,7 @@ public class LocationModel {
     public String regionDescription;
     public int pageid;
     public int genreid;
-    public PageModel Page;
+    public PageModel page;
     public GenreModel Genre;
     @Override
     public String toString() {

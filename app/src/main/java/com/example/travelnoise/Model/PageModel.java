@@ -4,17 +4,17 @@ import java.util.UUID;
 
 public class PageModel
 {
-    public int Id;
+    public int id;
 
-    public String PageDescription;
+    public String pageDescription;
 
-    public String PageTitle;
+    public String pageTitle;
 
     public UUID userid;
 
     public int genreid;
     public LocationModel location;
-    public UserModel User;
+    public UserModel user;
 
-    public GenreModel Genre;
+    public GenreModel genre;
 }

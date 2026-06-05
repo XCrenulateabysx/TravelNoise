@@ -1,13 +1,16 @@
 package com.example.travelnoise.ui.home;
 
-import android.location.Location;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -40,7 +43,8 @@ public class HomeFragment extends Fragment {
 
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Log.d("TEST", "onResponse: no response" );
-
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        ConstraintLayout layout = binding.HomeConstraint;
         apiService.getRegions().enqueue(new Callback<List<LocationModel>>()
         {
             @Override
@@ -50,8 +54,56 @@ public class HomeFragment extends Fragment {
 
                 if(response.isSuccessful() && response.body() != null)
                 {
-                    List<LocationModel> location = response.body();
-                    Log.d("TEST", "onResponse: " + location.get(0).regionName);
+                    List<LocationModel> locations = response.body();
+                    for ( LocationModel location: locations )
+                    {
+                        int size = dpToPx(28);
+                        ImageButton imageButton = new ImageButton(requireContext());
+                        imageButton.setImageResource(R.drawable.star);
+                        imageButton.setBackgroundColor(Color.TRANSPARENT);
+                        imageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        imageButton.setPadding(0, 0, 0, 0);
+
+                        ConstraintLayout.LayoutParams params =
+                                new ConstraintLayout.LayoutParams(size, size);
+
+                        params.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+                        params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+
+                        int x = parseDp(location.buttonX);
+                        int y = parseDp(location.buttonY);
+
+                        params.setMargins(dpToPx(x), dpToPx(y), 0, 0);
+
+
+
+
+                        if(location.page != null)
+                            Log.d("TEST", "onResponse: " + location.page.pageDescription + location.page.pageTitle);
+
+                        imageButton.setLayoutParams(params);
+
+                        imageButton.setOnClickListener(v ->{
+
+
+                            Bundle bundle = new Bundle();
+                            if(location.page != null)
+                            {
+                                Log.d("TEST", "onResponse: " + location.page.pageDescription + location.page.pageTitle);
+                                bundle.putString(ARG_TITLE, location.page.pageTitle);
+
+                                bundle.putString(
+                                        ARG_DESCRIPTION,
+                                        location.page.pageDescription
+                                );
+                            }
+                            bundle.putString(ARG_IMGURL, "http://10.0.2.2:5035/images/WTTTTTTTTTF.png");
+                            Navigation.findNavController(v)
+                                    .navigate(R.id.action_navigation_home_to_CityDescriptionFragment, bundle);
+                        });
+
+                        layout.addView(imageButton);
+                    }
                 }
             }
 
@@ -60,24 +112,8 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
-
-        binding.imageButton.setOnClickListener(v -> {
 
 
-            Bundle bundle = new Bundle();
-
-            bundle.putString(ARG_TITLE, "Indie Music");
-
-            bundle.putString(
-                    ARG_DESCRIPTION,
-                    "Indie music focuses on independent artists."
-            );
-
-            bundle.putString(ARG_IMGURL, "http://10.0.2.2:5035/images/WTTTTTTTTTF.png");
-            Navigation.findNavController(v)
-                    .navigate(R.id.action_navigation_home_to_CityDescriptionFragment, bundle);
-        });
 
         return binding.getRoot();
     }
@@ -86,5 +122,14 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private int dpToPx(int dp) {
+        return (int) (dp * getResources().getDisplayMetrics().density);
+    }
+
+    private int parseDp(String value) {
+        if (value == null) return 0;
+        return Integer.parseInt(value.replace("dp", "").replace("px", ""));
     }
 }
