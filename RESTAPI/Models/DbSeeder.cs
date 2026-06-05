@@ -13,7 +13,7 @@ namespace RESTAPI.Models
             db.Database.Migrate();
 
             // ONLY RESET IN DEVELOPMENT
-            var resetSeed = env.IsDevelopment();
+            var resetSeed = false;
 
             if (resetSeed)
             {
