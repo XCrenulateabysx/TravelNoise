@@ -7,7 +7,7 @@ namespace RESTAPI.Models
     public class User
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
         public string Username { get; set; } = null!;

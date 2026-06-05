@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using RESTAPI.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 Console.WriteLine("RAW ENV:");
@@ -32,6 +34,8 @@ builder.Services.AddControllers()
     });
 
 var app = builder.Build();
+
+DbSeeder.Seed(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

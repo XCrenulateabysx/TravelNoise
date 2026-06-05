@@ -29,7 +29,14 @@ public class RESTAPIContext : DbContext
         modelBuilder.Entity<Page>().ToTable("pages");
         modelBuilder.Entity<Practice>().ToTable("practice");
         modelBuilder.Entity<Vote>().ToTable("vote");
+        modelBuilder.Entity<Page>()
+            .HasOne(p => p.location)
+            .WithOne(l => l.Page)
+            .HasForeignKey<Location>(l => l.pageid);
 
-   
+
+
+
+
     }
 }

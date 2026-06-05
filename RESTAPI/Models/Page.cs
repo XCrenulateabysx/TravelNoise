@@ -16,7 +16,7 @@ namespace RESTAPI.Models
         public Guid userid { get; set; }
 
         public int genreid { get; set; }
-
+        public Location? location { get; set; }
         [ForeignKey(nameof(userid))]
         public User? User { get; set; }
 
