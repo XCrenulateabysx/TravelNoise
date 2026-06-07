@@ -85,8 +85,8 @@ public class indieFragment extends Fragment {
                     "imageURL",
                     "https://10.0.2.2:5035/images/test.png"
             );
-            Navigation.findNavController(v)
-                    .navigate(R.id.action_indieFragment_to_theoryFragment, bundle);
+//            Navigation.findNavController(v)
+//                    .navigate(R.id.action_indieFragment_to_theoryFragment, bundle);
         });
         // Inflate the layout for this fragment
         return binding.getRoot();

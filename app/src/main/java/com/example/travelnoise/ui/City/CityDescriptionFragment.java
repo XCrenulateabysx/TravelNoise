@@ -92,17 +92,22 @@ public class CityDescriptionFragment extends Fragment {
             public void onResponse(Call<List<PageGenreModel>> call, Response<List<PageGenreModel>> response) {
                 List<PageGenreModel> Genres = response.body();
                 if(!Genres.isEmpty())
-                for(PageGenreModel Genre: Genres)
                 {
-                    Log.d("TEST", "onResponse: " + response);
-                    MaterialButton button = new MaterialButton(requireContext());
-                    button.setText(Genre.genre.genrename);
-                    button.setOnClickListener(v -> {
-                        Navigation.findNavController(v)
-                                .navigate(R.id.action_scrollingIntroLocationFragment_to_jazzFragment);
-                    });
-                    layout.addView(button);
-                }
+                    for(PageGenreModel Genre: Genres)
+                    {
+                        Log.d("TEST", "onResponse: " + response);
+                        MaterialButton button = new MaterialButton(requireContext());
+                        button.setText(Genre.genre.genrename);
+
+                        button.setOnClickListener(v -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("Id",Genre.GenreId);
+                            Navigation.findNavController(v)
+                                    .navigate(R.id.action_CityDescriptionFragment_to_genreFragment);
+                        });
+                        layout.addView(button);
+                    }
+                    }
             }
 
             @Override
