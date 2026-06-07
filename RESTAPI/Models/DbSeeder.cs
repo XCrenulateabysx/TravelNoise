@@ -73,19 +73,16 @@ namespace RESTAPI.Models
                     {
                         title = "Physics Basics",
                         description = "Understanding movement in games",
-                        imageurl = "http://10.0.2.2:5035/images/WTTTTTTTF.png"
                     },
                     new TheoryPages
                     {
                         title = "AI Behavior",
                         description = "How game AI reacts to players",
-                        imageurl = "http://10.0.2.2:5035/images/WTTTTTTTF.png"
                     },
                     new TheoryPages
                     {
                         title = "Level Design",
                         description = "Designing engaging game levels",
-                        imageurl = "http://10.0.2.2:5035/images/WTTTTTTTF.png"
                     }
                 );
                 db.SaveChanges();

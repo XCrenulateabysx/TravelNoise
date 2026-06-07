@@ -1,19 +1,25 @@
 package com.example.travelnoise.ui.City;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
+import com.example.travelnoise.IServices.ApiService;
+import com.example.travelnoise.Model.PageModel;
 import com.example.travelnoise.R;
 import com.example.travelnoise.databinding.FragmentCityDescriptionBinding;
-import com.google.android.material.button.MaterialButton;
+import com.example.travelnoise.services.ApiClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CityDescriptionFragment extends Fragment {
 
@@ -21,11 +27,11 @@ public class CityDescriptionFragment extends Fragment {
 
     private static final String ARG_TITLE = "title";
     private static final String ARG_DESCRIPTION = "description";
-    private static final String ARG_IMGURL = "imageURL";
+    private static final String ARG_LOCATIONID = "LocationId";
 
-    private String mGenreTitle;
-    private String mGenreDescription;
-    private String mGenreURL;
+    private String mPageTitle;
+    private String mPageDescription;
+    private int mPageId;
 
     private String tempTitle = "Utrecht";
 
@@ -35,9 +41,9 @@ public class CityDescriptionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mGenreTitle = getArguments().getString(ARG_TITLE);
-            mGenreDescription = getArguments().getString(ARG_DESCRIPTION);
-            mGenreURL = getArguments().getString(ARG_IMGURL);
+            mPageTitle = getArguments().getString(ARG_TITLE);
+            mPageDescription = getArguments().getString(ARG_DESCRIPTION);
+            mPageId = getArguments().getInt(ARG_LOCATIONID);
         }
 
     }
@@ -47,17 +53,36 @@ public class CityDescriptionFragment extends Fragment {
                              Bundle savedInstanceState) {
         //Text and image binding
         binding = FragmentCityDescriptionBinding.inflate(inflater, container, false);
-        binding.Title.setText(mGenreTitle);
-        binding.Description.setText(mGenreDescription);
+        binding.Title.setText(mPageTitle);
+        binding.Description.setText(mPageDescription);
 
 
-        MaterialButton testbutton = new MaterialButton(requireContext());
-        testbutton.setText("Test dynamic button");
 
-        binding.ButtonLayout.addView(testbutton);
-        Glide.with(this)
-                .load(mGenreURL)
-                .into(binding.imageView5);
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+
+        apiService.getPage(mPageId).enqueue(new Callback<PageModel>() {
+            @Override
+            public void onResponse(Call<PageModel> call, Response<PageModel> response) {
+                if(response.isSuccessful() && response.body() != null)
+                {
+                    PageModel Page = response.body();
+                    Log.d("TEST", "onResponse imageurl: " + response.message());
+                    Log.d("TEST", "onResponse imageurl: " + Page.images.imageURL);
+                    Log.d("TEST", "onResponse imageurl: " + Page.images.id);
+                    Log.d("TEST", "onResponse imageurl: " + Page.id);
+                    if(Page.images.imageURL != null) {
+                        Glide.with(CityDescriptionFragment.this)
+                                .load(Page.images.imageURL)
+                                .into(binding.imageView5);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PageModel> call, Throwable throwable) {
+                Log.d("TEST", "onFailure No body home : " + call.toString() + "\n" + throwable.toString());
+            }
+        });
 
         binding.jazz.setOnClickListener(v -> {
             Navigation.findNavController(v)

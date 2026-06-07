@@ -20,8 +20,14 @@ namespace RESTAPI.Controllers
         public async Task<ActionResult<IEnumerable<TheoryPages>>> Get()
         {
             var TheoryPages = await _context.TheoryPages.ToListAsync();
-            Console.WriteLine("Poooop");
             return Ok(TheoryPages);
+        }
+
+        [HttpGet("GetPage{id}")]
+        public async Task<ActionResult<IEnumerable<TheoryPages>>> GetTheoryPage(int id)
+        {
+            var TheoryPageInfo = await _context.TheoryPages.FindAsync(id);
+            return Ok(TheoryPageInfo);
         }
 
         [HttpGet("yeet")]

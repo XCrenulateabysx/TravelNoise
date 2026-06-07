@@ -32,7 +32,7 @@ public class HomeFragment extends Fragment {
 
     private static final String ARG_TITLE = "title";
     private static final String ARG_DESCRIPTION = "description";
-    private static final String ARG_IMGURL = "imageURL";
+    private static final String ARG_LocationId = "LocationId";
 
 
     @Override
@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
                         imageButton.setLayoutParams(params);
 
                         imageButton.setOnClickListener(v ->{
-
+//TODO bundle just gives id and make a call for the image and description etc
 
                             Bundle bundle = new Bundle();
                             if(location.page != null)
@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment {
                                         location.page.pageDescription
                                 );
                             }
-                            bundle.putString(ARG_IMGURL, "http://10.0.2.2:5035/images/WTTTTTTTTTF.png");
+                            bundle.putInt(ARG_LocationId, location.page.id);
                             Navigation.findNavController(v)
                                     .navigate(R.id.action_navigation_home_to_CityDescriptionFragment, bundle);
                         });

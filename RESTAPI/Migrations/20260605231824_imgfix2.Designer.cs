@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace RESTAPI.Migrations
 {
     [DbContext(typeof(RESTAPIContext))]
-    partial class RESTAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20260605231824_imgfix2")]
+    partial class imgfix2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,21 @@ namespace RESTAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ImageLocation", b =>
+                {
+                    b.Property<int>("imagesId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("locationsid")
+                        .HasColumnType("integer");
+
+                    b.HasKey("imagesId", "locationsid");
+
+                    b.HasIndex("locationsid");
+
+                    b.ToTable("ImageLocation", "public");
+                });
 
             modelBuilder.Entity("RESTAPI.Models.GameDescription", b =>
                 {
@@ -68,6 +86,9 @@ namespace RESTAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("theoryid")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("image", "public");
@@ -98,9 +119,6 @@ namespace RESTAPI.Migrations
                     b.Property<int?>("genreid")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("imageid")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("pageid")
                         .HasColumnType("integer");
 
@@ -110,8 +128,6 @@ namespace RESTAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("genreid");
-
-                    b.HasIndex("imageid");
 
                     b.HasIndex("pageid")
                         .IsUnique();
@@ -136,7 +152,7 @@ namespace RESTAPI.Migrations
                     b.Property<int>("genreid")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("imageid")
+                    b.Property<int>("imageid")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("userid")
@@ -195,7 +211,8 @@ namespace RESTAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("imageid");
+                    b.HasIndex("imageid")
+                        .IsUnique();
 
                     b.ToTable("theorypages", "public");
                 });
@@ -242,6 +259,21 @@ namespace RESTAPI.Migrations
                     b.ToTable("vote", "public");
                 });
 
+            modelBuilder.Entity("ImageLocation", b =>
+                {
+                    b.HasOne("RESTAPI.Models.Image", null)
+                        .WithMany()
+                        .HasForeignKey("imagesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RESTAPI.Models.Location", null)
+                        .WithMany()
+                        .HasForeignKey("locationsid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("RESTAPI.Models.GameDescription", b =>
                 {
                     b.HasOne("RESTAPI.Models.Genre", "Genre")
@@ -259,10 +291,6 @@ namespace RESTAPI.Migrations
                         .WithMany()
                         .HasForeignKey("genreid");
 
-                    b.HasOne("RESTAPI.Models.Image", "images")
-                        .WithMany("locations")
-                        .HasForeignKey("imageid");
-
                     b.HasOne("RESTAPI.Models.Page", "Page")
                         .WithOne("location")
                         .HasForeignKey("RESTAPI.Models.Location", "pageid");
@@ -270,8 +298,6 @@ namespace RESTAPI.Migrations
                     b.Navigation("Genre");
 
                     b.Navigation("Page");
-
-                    b.Navigation("images");
                 });
 
             modelBuilder.Entity("RESTAPI.Models.Page", b =>
@@ -284,7 +310,9 @@ namespace RESTAPI.Migrations
 
                     b.HasOne("RESTAPI.Models.Image", "images")
                         .WithMany("pages")
-                        .HasForeignKey("imageid");
+                        .HasForeignKey("imageid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("RESTAPI.Models.User", "User")
                         .WithMany()
@@ -313,8 +341,8 @@ namespace RESTAPI.Migrations
             modelBuilder.Entity("RESTAPI.Models.TheoryPages", b =>
                 {
                     b.HasOne("RESTAPI.Models.Image", "images")
-                        .WithMany("theorypages")
-                        .HasForeignKey("imageid");
+                        .WithOne("TheoryPages")
+                        .HasForeignKey("RESTAPI.Models.TheoryPages", "imageid");
 
                     b.Navigation("images");
                 });
@@ -340,11 +368,9 @@ namespace RESTAPI.Migrations
 
             modelBuilder.Entity("RESTAPI.Models.Image", b =>
                 {
-                    b.Navigation("locations");
+                    b.Navigation("TheoryPages");
 
                     b.Navigation("pages");
-
-                    b.Navigation("theorypages");
                 });
 
             modelBuilder.Entity("RESTAPI.Models.Page", b =>
