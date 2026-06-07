@@ -42,17 +42,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/jazz"
-                android:layout_width="128dp"
-                android:layout_height="wrap_content"
-                android:text="jazz" />
 
-            <Button
-                android:id="@+id/indie"
-                android:layout_width="128dp"
-                android:layout_height="wrap_content"
-                android:text="indie" />
         </LinearLayout>
 
     </LinearLayout>

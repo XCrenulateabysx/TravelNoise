@@ -8,30 +8,9 @@ namespace RESTAPI.Models
         {
             using var scope = app.ApplicationServices.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<RESTAPIContext>();
-            var env = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
 
             db.Database.Migrate();
 
-            // ONLY RESET IN DEVELOPMENT
-            var resetSeed = false;
-
-            if (resetSeed)
-            {
-                db.Votes.RemoveRange(db.Votes);
-                db.Practices.RemoveRange(db.Practices);
-                db.Pages.RemoveRange(db.Pages);
-                db.GameDescriptions.RemoveRange(db.GameDescriptions);
-                db.Locations.RemoveRange(db.Locations);
-                db.TheoryPages.RemoveRange(db.TheoryPages);
-                db.Genres.RemoveRange(db.Genres);
-                db.Users.RemoveRange(db.Users);
-
-                db.SaveChanges();
-            }
-
-            // =========================
-            // GENRES
-            // =========================
             if (!db.Genres.Any())
             {
                 db.Genres.AddRange(
@@ -42,19 +21,25 @@ namespace RESTAPI.Models
                 db.SaveChanges();
             }
 
-            var genreMap = db.Genres
-                .AsNoTracking()
+            var genres = db.Genres.AsNoTracking()
                 .ToDictionary(g => g.genrename!, g => g.id);
 
-            // =========================
-            // USERS
-            // =========================
+            if (!db.Images.Any())
+            {
+                db.Images.AddRange(
+                    new Image { ImageURL = "http://10.0.2.2:5035/images/WTTTTTTTTTF.png" }
+                );
+                db.SaveChanges();
+            }
+
+            var image = db.Images.First();
+
             if (!db.Users.Any())
             {
                 db.Users.AddRange(
-                    new User { Username = "admin", Password = "$2a$11$hash_admin" },
-                    new User { Username = "player1", Password = "$2a$11$hash_player1" },
-                    new User { Username = "tester", Password = "$2a$11$hash_tester" }
+                    new User { Username = "admin", Password = "hash_admin" },
+                    new User { Username = "player1", Password = "hash_player1" },
+                    new User { Username = "tester", Password = "hash_tester" }
                 );
                 db.SaveChanges();
             }
@@ -63,9 +48,6 @@ namespace RESTAPI.Models
             var player1 = db.Users.First(u => u.Username == "player1");
             var tester = db.Users.First(u => u.Username == "tester");
 
-            // =========================
-            // THEORY PAGES
-            // =========================
             if (!db.TheoryPages.Any())
             {
                 db.TheoryPages.AddRange(
@@ -73,72 +55,24 @@ namespace RESTAPI.Models
                     {
                         title = "Physics Basics",
                         description = "Understanding movement in games",
+                        imageid = image.Id
                     },
                     new TheoryPages
                     {
                         title = "AI Behavior",
                         description = "How game AI reacts to players",
+                        imageid = image.Id
                     },
                     new TheoryPages
                     {
                         title = "Level Design",
                         description = "Designing engaging game levels",
+                        imageid = image.Id
                     }
                 );
                 db.SaveChanges();
             }
 
-            // =========================
-            // LOCATIONS
-            // =========================
-            if (!db.Locations.Any())
-            {
-                db.Locations.AddRange(
-                    new Location
-                    {
-                        RegionName = "Utrecht",
-                        RegionDescription = "A very cool description",
-                        genreid = genreMap["Adventure"],
-                        buttonX = "188dp",
-                        buttonY = "360dp",
-                        
-                    },
-                    new Location
-                    {
-                        RegionName = "Puzzle Region",
-                        RegionDescription = "Logic challenges",
-                        genreid = genreMap["Puzzle"],
-                        buttonX = "200dp",
-                        buttonY = "200dp"
-                    },
-                    new Location
-                    {
-                        RegionName = "Racing Region",
-                        RegionDescription = "Speed and competition",
-                        genreid = genreMap["Racing"],
-                        buttonX = "100dp",
-                        buttonY = "200dp"
-                    }
-                );
-                db.SaveChanges();
-            }
-
-            // =========================
-            // GAME DESCRIPTIONS
-            // =========================
-            if (!db.GameDescriptions.Any())
-            {
-                db.GameDescriptions.AddRange(
-                    new GameDescription { genreid = genreMap["Adventure"] },
-                    new GameDescription { genreid = genreMap["Puzzle"] },
-                    new GameDescription { genreid = genreMap["Racing"] }
-                );
-                db.SaveChanges();
-            }
-
-            // =========================
-            // PAGES
-            // =========================
             if (!db.Pages.Any())
             {
                 db.Pages.AddRange(
@@ -147,56 +81,102 @@ namespace RESTAPI.Models
                         PageTitle = "Adventure Guide",
                         PageDescription = "Adventure gameplay guide",
                         userid = admin.Id,
-                        genreid = genreMap["Adventure"]
+                        imageid = image.Id
                     },
                     new Page
                     {
                         PageTitle = "Puzzle Guide",
                         PageDescription = "Puzzle solving techniques",
                         userid = player1.Id,
-                        genreid = genreMap["Puzzle"]
+                        imageid = image.Id
                     },
                     new Page
                     {
                         PageTitle = "Racing Guide",
                         PageDescription = "Racing mechanics explained",
                         userid = tester.Id,
-                        genreid = genreMap["Racing"]
+                        imageid = image.Id
                     }
                 );
                 db.SaveChanges();
             }
 
-            // =========================
-            // PRACTICES
-            // =========================
-            if (!db.Practices.Any())
-            {
-                var pageMap = db.Pages
-                    .AsNoTracking()
-                    .ToDictionary(p => p.PageTitle, p => p.Id);
+            var pages = db.Pages.AsNoTracking()
+                .ToDictionary(p => p.PageTitle!, p => p.Id);
 
-                db.Practices.AddRange(
-                    new Practice { practicetype = 1, pageid = pageMap["Adventure Guide"] },
-                    new Practice { practicetype = 2, pageid = pageMap["Puzzle Guide"] },
-                    new Practice { practicetype = 3, pageid = pageMap["Racing Guide"] }
+            if (!db.PageGenres.Any())
+            {
+                db.PageGenres.AddRange(
+                    new PageGenre { PageId = pages["Adventure Guide"], GenreId = genres["Adventure"] },
+                    new PageGenre { PageId = pages["Puzzle Guide"], GenreId = genres["Puzzle"] },
+                    new PageGenre { PageId = pages["Racing Guide"], GenreId = genres["Racing"] }
                 );
                 db.SaveChanges();
             }
 
-            // =========================
-            // VOTES
-            // =========================
+            if (!db.Locations.Any())
+            {
+                db.Locations.AddRange(
+                    new Location
+                    {
+                        RegionName = "Utrecht",
+                        RegionDescription = "A very cool description",
+                        genreid = genres["Adventure"],
+                        buttonX = "188dp",
+                        buttonY = "360dp",
+                        pageid = pages["Adventure Guide"],
+                        imageid = image.Id
+                    },
+                    new Location
+                    {
+                        RegionName = "Puzzle Region",
+                        RegionDescription = "Logic challenges",
+                        genreid = genres["Puzzle"],
+                        buttonX = "200dp",
+                        buttonY = "200dp",
+                        pageid = pages["Puzzle Guide"],
+                        imageid = image.Id
+                    },
+                    new Location
+                    {
+                        RegionName = "Racing Region",
+                        RegionDescription = "Speed and competition",
+                        genreid = genres["Racing"],
+                        buttonX = "100dp",
+                        buttonY = "200dp",
+                        pageid = pages["Racing Guide"],
+                        imageid = image.Id
+                    }
+                );
+                db.SaveChanges();
+            }
+
+            if (!db.GameDescriptions.Any())
+            {
+                db.GameDescriptions.AddRange(
+                    new GameDescription { genreid = genres["Adventure"] },
+                    new GameDescription { genreid = genres["Puzzle"] },
+                    new GameDescription { genreid = genres["Racing"] }
+                );
+                db.SaveChanges();
+            }
+
+            if (!db.Practices.Any())
+            {
+                db.Practices.AddRange(
+                    new Practice { practicetype = 1, pageid = pages["Adventure Guide"] },
+                    new Practice { practicetype = 2, pageid = pages["Puzzle Guide"] },
+                    new Practice { practicetype = 3, pageid = pages["Racing Guide"] }
+                );
+                db.SaveChanges();
+            }
+
             if (!db.Votes.Any())
             {
-                var pageMap = db.Pages
-                    .AsNoTracking()
-                    .ToDictionary(p => p.PageTitle, p => p.Id);
-
                 db.Votes.AddRange(
-                    new Vote { UserId = admin.Id, pageid = pageMap["Adventure Guide"] },
-                    new Vote { UserId = player1.Id, pageid = pageMap["Puzzle Guide"] },
-                    new Vote { UserId = tester.Id, pageid = pageMap["Racing Guide"] }
+                    new Vote { UserId = admin.Id, pageid = pages["Adventure Guide"] },
+                    new Vote { UserId = player1.Id, pageid = pages["Puzzle Guide"] },
+                    new Vote { UserId = tester.Id, pageid = pages["Racing Guide"] }
                 );
                 db.SaveChanges();
             }

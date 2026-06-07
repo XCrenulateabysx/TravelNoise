@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
@@ -12,10 +14,14 @@ import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.example.travelnoise.IServices.ApiService;
+import com.example.travelnoise.Model.PageGenreModel;
 import com.example.travelnoise.Model.PageModel;
 import com.example.travelnoise.R;
 import com.example.travelnoise.databinding.FragmentCityDescriptionBinding;
 import com.example.travelnoise.services.ApiClient;
+import com.google.android.material.button.MaterialButton;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +62,7 @@ public class CityDescriptionFragment extends Fragment {
         binding.Title.setText(mPageTitle);
         binding.Description.setText(mPageDescription);
 
+        LinearLayout layout = binding.ButtonLayout;
 
 
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
@@ -66,10 +73,6 @@ public class CityDescriptionFragment extends Fragment {
                 if(response.isSuccessful() && response.body() != null)
                 {
                     PageModel Page = response.body();
-                    Log.d("TEST", "onResponse imageurl: " + response.message());
-                    Log.d("TEST", "onResponse imageurl: " + Page.images.imageURL);
-                    Log.d("TEST", "onResponse imageurl: " + Page.images.id);
-                    Log.d("TEST", "onResponse imageurl: " + Page.id);
                     if(Page.images.imageURL != null) {
                         Glide.with(CityDescriptionFragment.this)
                                 .load(Page.images.imageURL)
@@ -84,14 +87,31 @@ public class CityDescriptionFragment extends Fragment {
             }
         });
 
-        binding.jazz.setOnClickListener(v -> {
-            Navigation.findNavController(v)
-                    .navigate(R.id.action_scrollingIntroLocationFragment_to_jazzFragment);
+        apiService.getGenre(mPageId).enqueue(new Callback<List<PageGenreModel>>() {
+            @Override
+            public void onResponse(Call<List<PageGenreModel>> call, Response<List<PageGenreModel>> response) {
+                List<PageGenreModel> Genres = response.body();
+                if(!Genres.isEmpty())
+                for(PageGenreModel Genre: Genres)
+                {
+                    Log.d("TEST", "onResponse: " + response);
+                    MaterialButton button = new MaterialButton(requireContext());
+                    button.setText(Genre.genre.genrename);
+                    button.setOnClickListener(v -> {
+                        Navigation.findNavController(v)
+                                .navigate(R.id.action_scrollingIntroLocationFragment_to_jazzFragment);
+                    });
+                    layout.addView(button);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PageGenreModel>> call, Throwable throwable) {
+
+            }
         });
-        binding.indie.setOnClickListener(v -> {
-            Navigation.findNavController(v)
-                    .navigate(R.id.action_scrollingIntroLocationFragment_to_indieFragment);
-        });
+
+
 
         return binding.getRoot();
     }

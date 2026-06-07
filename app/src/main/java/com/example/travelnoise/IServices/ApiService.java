@@ -2,6 +2,7 @@ package com.example.travelnoise.IServices;
 
 
 import com.example.travelnoise.Model.LocationModel;
+import com.example.travelnoise.Model.PageGenreModel;
 import com.example.travelnoise.Model.PageModel;
 
 import java.util.List;
@@ -17,4 +18,7 @@ public interface ApiService {
 
     @GET("api/Page/GetPage/{id}")
     Call<PageModel> getPage(@Path("id") int id);
+
+    @GET("api/Page/GetGenre/{id}")
+    Call<List<PageGenreModel>> getGenre(@Path("id") int id);
 }

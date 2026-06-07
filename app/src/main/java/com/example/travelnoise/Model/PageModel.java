@@ -18,5 +18,5 @@ public class PageModel
     public LocationModel location;
     public UserModel user;
 
-    public GenreModel genre;
+    public List<PageGenreModel> PageGenre;
 }
