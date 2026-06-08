@@ -15,6 +15,9 @@
             android:id="@+id/imageView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minWidth="16dp"
+            android:minHeight="200dp"
+            android:scaleType="centerInside"
             android:src="@android:drawable/ic_menu_report_image" />
 
         <EditText
