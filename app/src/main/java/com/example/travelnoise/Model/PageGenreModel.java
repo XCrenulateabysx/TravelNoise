@@ -1,8 +1,8 @@
 package com.example.travelnoise.Model;
 
 public class PageGenreModel {
-    public int PageId;
-    public int GenreId;
+    public int pageId;
+    public int genreId;
     public PageModel page;
     public GenreModel genre;
 }

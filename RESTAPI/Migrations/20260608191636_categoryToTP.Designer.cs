@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace RESTAPI.Migrations
 {
     [DbContext(typeof(RESTAPIContext))]
-    partial class RESTAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20260608191636_categoryToTP")]
+    partial class categoryToTP
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,12 +50,6 @@ namespace RESTAPI.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
-
-                    b.Property<string>("genreDescription")
-                        .HasColumnType("text");
-
-                    b.Property<string>("genreTitle")
-                        .HasColumnType("text");
 
                     b.Property<string>("genrename")
                         .HasColumnType("text");
@@ -108,6 +105,9 @@ namespace RESTAPI.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int?>("pageid")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("theoryId")
                         .HasColumnType("integer");
 
                     b.HasKey("id");
@@ -203,9 +203,6 @@ namespace RESTAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("genreId")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("imageid")
                         .HasColumnType("integer");
 
@@ -214,8 +211,6 @@ namespace RESTAPI.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("id");
-
-                    b.HasIndex("genreId");
 
                     b.HasIndex("imageid");
 
@@ -345,15 +340,9 @@ namespace RESTAPI.Migrations
 
             modelBuilder.Entity("RESTAPI.Models.TheoryPages", b =>
                 {
-                    b.HasOne("RESTAPI.Models.Genre", "genre")
-                        .WithMany("theoryPages")
-                        .HasForeignKey("genreId");
-
                     b.HasOne("RESTAPI.Models.Image", "images")
                         .WithMany("theorypages")
                         .HasForeignKey("imageid");
-
-                    b.Navigation("genre");
 
                     b.Navigation("images");
                 });
@@ -380,8 +369,6 @@ namespace RESTAPI.Migrations
             modelBuilder.Entity("RESTAPI.Models.Genre", b =>
                 {
                     b.Navigation("PageGenre");
-
-                    b.Navigation("theoryPages");
                 });
 
             modelBuilder.Entity("RESTAPI.Models.Image", b =>

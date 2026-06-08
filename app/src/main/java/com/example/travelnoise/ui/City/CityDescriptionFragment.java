@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
@@ -19,6 +18,7 @@ import com.example.travelnoise.Model.PageModel;
 import com.example.travelnoise.R;
 import com.example.travelnoise.databinding.FragmentCityDescriptionBinding;
 import com.example.travelnoise.services.ApiClient;
+import com.example.travelnoise.services.BundleKeys;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
@@ -31,9 +31,7 @@ public class CityDescriptionFragment extends Fragment {
 
     private FragmentCityDescriptionBinding binding;
 
-    private static final String ARG_TITLE = "title";
-    private static final String ARG_DESCRIPTION = "description";
-    private static final String ARG_LOCATIONID = "LocationId";
+
 
     private String mPageTitle;
     private String mPageDescription;
@@ -47,9 +45,9 @@ public class CityDescriptionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mPageTitle = getArguments().getString(ARG_TITLE);
-            mPageDescription = getArguments().getString(ARG_DESCRIPTION);
-            mPageId = getArguments().getInt(ARG_LOCATIONID);
+            mPageTitle = getArguments().getString(BundleKeys.ARG_TITLE);
+            mPageDescription = getArguments().getString(BundleKeys.ARG_DESCRIPTION);
+            mPageId = getArguments().getInt(BundleKeys.ARG_LOCATIONID);
         }
 
     }
@@ -101,9 +99,11 @@ public class CityDescriptionFragment extends Fragment {
 
                         button.setOnClickListener(v -> {
                             Bundle bundle = new Bundle();
-                            bundle.putInt("Id",Genre.GenreId);
+                            bundle.putInt(BundleKeys.ARG_GENREID,Genre.genreId);
+                            bundle.putString(BundleKeys.ARG_GENRETITLE,Genre.genre.genreTitle);
+                            bundle.putString(BundleKeys.ARG_GENREDESCRIPTION,Genre.genre.genreDescription);
                             Navigation.findNavController(v)
-                                    .navigate(R.id.action_CityDescriptionFragment_to_genreFragment);
+                                    .navigate(R.id.action_CityDescriptionFragment_to_genreFragment, bundle);
                         });
                         layout.addView(button);
                     }

@@ -23,45 +23,13 @@ namespace RESTAPI.Controllers
             return Ok(TheoryPages);
         }
 
-        [HttpGet("GetPage{id}")]
-        public async Task<ActionResult<IEnumerable<TheoryPages>>> GetTheoryPage(int id)
+        [HttpGet("GetPage/{id}/{category}")]
+        public async Task<ActionResult<IEnumerable<TheoryPages>>> GetTheoryPage(int id, string category)
         {
-            var TheoryPageInfo = await _context.TheoryPages.FindAsync(id);
+            var TheoryPageInfo = await _context.TheoryPages.Where(tp => tp.genre.id == id && tp.category == category).Include(tp => tp.images).FirstOrDefaultAsync();
             return Ok(TheoryPageInfo);
         }
 
-        [HttpGet("yeet")]
-        public async Task<ActionResult<IEnumerable<User>>> GetTest()
-        {
-            var TheoryPages = await _context.Users.ToListAsync();
-            Console.WriteLine("Poooop");
-            return Ok(TheoryPages);
-        }
-        [HttpGet("dump")]
-        public async Task<IActionResult> DumpDatabase()
-        {
-            var users = await _context.Users.ToListAsync();
-            var genres = await _context.Genres.ToListAsync();
-            var theoryPages = await _context.TheoryPages.ToListAsync();
-            var pages = await _context.Pages.ToListAsync();
-            var locations = await _context.Locations.ToListAsync();
-            var gameDescriptions = await _context.GameDescriptions.ToListAsync();
-            var practices = await _context.Practices.ToListAsync();
-            var votes = await _context.Votes.ToListAsync();
 
-            var result = new
-            {
-                Users = users,
-                Genres = genres,
-                TheoryPages = theoryPages,
-                Pages = pages,
-                Locations = locations,
-                GameDescriptions = gameDescriptions,
-                Practices = practices,
-                Votes = votes
-            };
-
-            return Ok(result);
-        }
     }
 }

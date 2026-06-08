@@ -36,11 +36,24 @@
         android:id="@+id/genreFragment"
         android:name="com.example.travelnoise.ui.genre.GenreFragment"
         android:label="fragment_genre"
-        tools:layout="@layout/fragment_genre"/>
+        tools:layout="@layout/fragment_genre">
+        <action
+            android:id="@+id/action_genreFragment_to_theoryFragment"
+            app:destination="@id/theoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/theoryFragment"
         android:name="com.example.travelnoise.ui.music.TheoryFragment"
         android:label="fragment_indie"
-        tools:layout="@layout/fragment_theory" />
+        tools:layout="@layout/fragment_theory" >
+        <action
+            android:id="@+id/action_theoryFragment_to_exerciseFragment"
+            app:destination="@id/exerciseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exerciseFragment"
+        android:name="com.example.travelnoise.ExerciseFragment"
+        android:label="fragment_exercise"
+        tools:layout="@layout/fragment_exercise" />
 
 </navigation>

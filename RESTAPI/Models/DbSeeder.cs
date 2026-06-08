@@ -14,9 +14,21 @@ namespace RESTAPI.Models
             if (!db.Genres.Any())
             {
                 db.Genres.AddRange(
-                    new Genre { genrename = "Adventure" },
-                    new Genre { genrename = "Puzzle" },
-                    new Genre { genrename = "Racing" }
+                    new Genre { 
+                        genrename = "Adventure",
+                        genreTitle = "Jazz",
+                        genreDescription = "A cool Jazz description"
+                    },
+                    new Genre { 
+                        genrename = "Puzzle",
+                        genreTitle = "Rock",
+                        genreDescription = "A cool Rock description"
+                    },
+                    new Genre { 
+                        genrename = "Racing",
+                        genreTitle = "Country",
+                        genreDescription = "A cool Country description"
+                    }
                 );
                 db.SaveChanges();
             }
@@ -55,19 +67,29 @@ namespace RESTAPI.Models
                     {
                         title = "Physics Basics",
                         description = "Understanding movement in games",
-                        imageid = image.Id
+                        imageid = image.Id,
+                        category = "Harmony"
                     },
                     new TheoryPages
                     {
                         title = "AI Behavior",
                         description = "How game AI reacts to players",
-                        imageid = image.Id
+                        imageid = image.Id,
+                        category = "Instruments"
                     },
                     new TheoryPages
                     {
                         title = "Level Design",
                         description = "Designing engaging game levels",
-                        imageid = image.Id
+                        imageid = image.Id,
+                        category = "Rythm"
+                    },
+                    new TheoryPages
+                    {
+                        title = "HAAAARmony",
+                        description = "harrrrrrrrr",
+                        imageid = image.Id,
+                        category = "Chords"
                     }
                 );
                 db.SaveChanges();
@@ -122,28 +144,28 @@ namespace RESTAPI.Models
                         RegionName = "Utrecht",
                         RegionDescription = "A very cool description",
                         genreid = genres["Adventure"],
-                        buttonX = "188dp",
-                        buttonY = "360dp",
+                        buttonX = "178dp",
+                        buttonY = "300dp",
                         pageid = pages["Adventure Guide"],
                         imageid = image.Id
                     },
                     new Location
                     {
-                        RegionName = "Puzzle Region",
+                        RegionName = "Flevoland",
                         RegionDescription = "Logic challenges",
                         genreid = genres["Puzzle"],
-                        buttonX = "200dp",
-                        buttonY = "200dp",
+                        buttonX = "205dp",
+                        buttonY = "235dp",
                         pageid = pages["Puzzle Guide"],
                         imageid = image.Id
                     },
                     new Location
                     {
-                        RegionName = "Racing Region",
+                        RegionName = "Noord-Holland",
                         RegionDescription = "Speed and competition",
                         genreid = genres["Racing"],
-                        buttonX = "100dp",
-                        buttonY = "200dp",
+                        buttonX = "130dp",
+                        buttonY = "220dp",
                         pageid = pages["Racing Guide"],
                         imageid = image.Id
                     }
