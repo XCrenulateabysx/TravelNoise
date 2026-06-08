@@ -1,5 +1,6 @@
 package com.example.travelnoise.Model;
 
+import java.util.List;
 import java.util.UUID;
 
 public class PageModel
@@ -11,10 +12,11 @@ public class PageModel
     public String pageTitle;
 
     public UUID userid;
-
+    public int imagesid;
+    public ImageModel images;
     public int genreid;
     public LocationModel location;
     public UserModel user;
 
-    public GenreModel genre;
+    public List<PageGenreModel> PageGenre;
 }

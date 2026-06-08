@@ -15,8 +15,10 @@ namespace RESTAPI.Models
         public string? buttonX { get; set; }
         public string? buttonY { get; set; }
         public int? pageid { get; set; }
-
+        public int? theoryId { get; set; }
         public int? genreid { get; set; }
+        public int? imageid { get; set; }
+        public Image? images { get; set; }
         [ForeignKey(nameof(pageid))]
         public Page? Page { get; set; }
 

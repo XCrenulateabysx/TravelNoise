@@ -9,7 +9,8 @@ namespace RESTAPI.Models
         public int id { get; set; }
         public string title { get; set; }
         public string description { get; set; }
-        public string imageurl { get; set; }
+        public int? imageid { get; set; }
+        public Image? images { get; set; }
 
     }
 }

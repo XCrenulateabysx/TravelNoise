@@ -16,6 +16,8 @@ public class RESTAPIContext : DbContext
     public DbSet<Page> Pages => Set<Page>();
     public DbSet<Practice> Practices => Set<Practice>();
     public DbSet<Vote> Votes => Set<Vote>();
+    public DbSet<PageGenre> PageGenres => Set<PageGenre>();
+    public DbSet<Image> Images => Set<Image>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,10 +31,13 @@ public class RESTAPIContext : DbContext
         modelBuilder.Entity<Page>().ToTable("pages");
         modelBuilder.Entity<Practice>().ToTable("practice");
         modelBuilder.Entity<Vote>().ToTable("vote");
+        modelBuilder.Entity<Image>().ToTable("image");
         modelBuilder.Entity<Page>()
             .HasOne(p => p.location)
             .WithOne(l => l.Page)
             .HasForeignKey<Location>(l => l.pageid);
+        modelBuilder.Entity<PageGenre>()
+            .HasKey(pg => new { pg.PageId, pg.GenreId });
 
 
 
