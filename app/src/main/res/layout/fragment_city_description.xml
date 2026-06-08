@@ -15,7 +15,7 @@
             android:id="@+id/imageView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/images" />
+            android:src="@android:drawable/ic_menu_report_image" />
 
         <EditText
             android:id="@+id/Title"
