@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using RESTAPI.Models;
 
 public class RESTAPIContext : DbContext
 {
@@ -7,5 +8,40 @@ public class RESTAPIContext : DbContext
     {
     }
 
-    public DbSet<RESTAPI.Models.TheoryPages> theorypages { get; set; } = default!;
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Genre> Genres => Set<Genre>();
+    public DbSet<TheoryPages> TheoryPages => Set<TheoryPages>();
+    public DbSet<Location> Locations => Set<Location>();
+    public DbSet<GameDescription> GameDescriptions => Set<GameDescription>();
+    public DbSet<Page> Pages => Set<Page>();
+    public DbSet<Practice> Practices => Set<Practice>();
+    public DbSet<Vote> Votes => Set<Vote>();
+    public DbSet<PageGenre> PageGenres => Set<PageGenre>();
+    public DbSet<Image> Images => Set<Image>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.HasDefaultSchema("public");
+
+        modelBuilder.Entity<User>().ToTable("User");
+        modelBuilder.Entity<Genre>().ToTable("genre");
+        modelBuilder.Entity<TheoryPages>().ToTable("theorypages");
+        modelBuilder.Entity<Location>().ToTable("Location");
+        modelBuilder.Entity<GameDescription>().ToTable("gamedescription");
+        modelBuilder.Entity<Page>().ToTable("pages");
+        modelBuilder.Entity<Practice>().ToTable("practice");
+        modelBuilder.Entity<Vote>().ToTable("vote");
+        modelBuilder.Entity<Image>().ToTable("image");
+        modelBuilder.Entity<Page>()
+            .HasOne(p => p.location)
+            .WithOne(l => l.Page)
+            .HasForeignKey<Location>(l => l.pageid);
+        modelBuilder.Entity<PageGenre>()
+            .HasKey(pg => new { pg.PageId, pg.GenreId });
+
+
+
+
+
+    }
 }
