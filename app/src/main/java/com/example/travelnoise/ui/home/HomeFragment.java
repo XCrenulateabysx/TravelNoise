@@ -19,6 +19,7 @@ import com.example.travelnoise.Model.LocationModel;
 import com.example.travelnoise.R;
 import com.example.travelnoise.databinding.FragmentHomeBinding;
 import com.example.travelnoise.services.ApiClient;
+import com.example.travelnoise.services.BundleKeys;
 
 import java.util.List;
 
@@ -30,10 +31,6 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
-    private static final String ARG_TITLE = "title";
-    private static final String ARG_DESCRIPTION = "description";
-    private static final String ARG_LocationId = "LocationId";
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -44,7 +41,7 @@ public class HomeFragment extends Fragment {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Log.d("TEST", "onResponse: no response" );
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        ConstraintLayout layout = binding.HomeConstraint;
+        ConstraintLayout layout = binding.MapLayout;
         apiService.getRegions().enqueue(new Callback<List<LocationModel>>()
         {
             @Override
@@ -90,14 +87,14 @@ public class HomeFragment extends Fragment {
                             if(location.page != null)
                             {
                                 Log.d("TEST", "onResponse: " + location.page.pageDescription + location.page.pageTitle);
-                                bundle.putString(ARG_TITLE, location.page.pageTitle);
+                                bundle.putString(BundleKeys.ARG_TITLE, location.regionName);
 
                                 bundle.putString(
-                                        ARG_DESCRIPTION,
-                                        location.page.pageDescription
+                                        BundleKeys.ARG_DESCRIPTION,
+                                        location.regionDescription
                                 );
                             }
-                            bundle.putInt(ARG_LocationId, location.page.id);
+                            bundle.putInt(BundleKeys.ARG_LOCATIONID, location.page.id);
                             Navigation.findNavController(v)
                                     .navigate(R.id.action_navigation_home_to_CityDescriptionFragment, bundle);
                         });

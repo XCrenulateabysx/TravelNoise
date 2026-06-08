@@ -9,9 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.example.travelnoise.IServices.ApiService;
+import com.example.travelnoise.Model.TheoryPageModel;
 import com.example.travelnoise.R;
-import com.example.travelnoise.databinding.FragmentIndieBinding;
 import com.example.travelnoise.databinding.FragmentTheoryBinding;
+import com.example.travelnoise.services.ApiClient;
+import com.example.travelnoise.services.BundleKeys;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,16 +27,9 @@ import com.example.travelnoise.databinding.FragmentTheoryBinding;
  */
 public class TheoryFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "title";
-    private static final String ARG_PARAM2 = "description";
-    private static final String ARG_PARAM3 = "imageURL";
 
-    // TODO: Rename and change types of parameters
-    private String mTheoryTitle;
-    private String mTheoryDescription;
-    private String mTheoryImageURL;
+    private int mGenreId;
+    private String mCategory;
 
     private FragmentTheoryBinding binding;
 
@@ -43,9 +43,9 @@ public class TheoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mTheoryTitle = getArguments().getString(ARG_PARAM1);
-            mTheoryDescription = getArguments().getString(ARG_PARAM2);
-            mTheoryImageURL = getArguments().getString(ARG_PARAM3);
+            mGenreId = getArguments().getInt(BundleKeys.ARG_GENREID);
+            mCategory = getArguments().getString(BundleKeys.ARG_CATEGORY);
+
         }
 
     }
@@ -54,15 +54,32 @@ public class TheoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
         binding = FragmentTheoryBinding.inflate(inflater, container, false);
 
-        binding.TheoryTitle.setText(mTheoryTitle);
-        binding.TheoryDescription.setText(mTheoryDescription);
+        apiService.getPage(mGenreId, mCategory).enqueue(new Callback<TheoryPageModel>() {
+            @Override
+            public void onResponse(Call<TheoryPageModel> call, Response<TheoryPageModel> response) {
+                TheoryPageModel pageInfo = response.body();
 
-        String url = "http://10.0.2.2:5035/images/WTTTTTTTTTF.png";
-        Glide.with(this)
-                .load(url)
-                .into(binding.TheoryPreviewImage);
+                binding.TheoryTitle.setText(pageInfo.title);
+                binding.TheoryDescription.setText(pageInfo.description);
+
+                Glide.with(TheoryFragment.this)
+                        .load(pageInfo.images.imageURL)
+                        .into(binding.TheoryPreviewImage);
+
+            }
+
+            @Override
+            public void onFailure(Call<TheoryPageModel> call, Throwable throwable) {
+
+            }
+        });
+
+
+
 
 
         return binding.getRoot();
