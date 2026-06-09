@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.travelnoise.IServices.ApiService;
 import com.example.travelnoise.R;
 import com.example.travelnoise.databinding.FragmentExerciseBinding;
 import com.example.travelnoise.databinding.FragmentTheoryBinding;
+import com.example.travelnoise.services.ApiClient;
 import com.example.travelnoise.services.BundleKeys;
 
 /**
@@ -87,5 +89,10 @@ public class ExerciseFragment extends Fragment {
                 binding.InstrumentsExercise.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    private void fillExerciseData(String category)
+    {
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
     }
 }
