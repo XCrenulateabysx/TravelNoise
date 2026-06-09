@@ -5,7 +5,10 @@ import java.util.List;
 public class ImageModel {
     public int id;
     public String imageURL;
-    public List<PageModel> pages;
-    public List<LocationModel> locations;
-    public List<TheoryPageModel> theoryPage;
+    public int pagesId;
+    public PageModel pages;
+    public int locationsId;
+    public LocationModel locations;
+    public int theorypagesId;
+    public TheoryPageModel theorypages;
 }

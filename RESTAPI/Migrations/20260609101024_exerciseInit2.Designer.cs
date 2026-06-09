@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace RESTAPI.Migrations
 {
     [DbContext(typeof(RESTAPIContext))]
-    partial class RESTAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20260609101024_exerciseInit2")]
+    partial class exerciseInit2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,23 +77,12 @@ namespace RESTAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("locationsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("pagesId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("theorypagesId")
+                    b.Property<int?>("MusicExerciseOptionsid")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("locationsId")
-                        .IsUnique();
-
-                    b.HasIndex("pagesId");
-
-                    b.HasIndex("theorypagesId");
+                    b.HasIndex("MusicExerciseOptionsid");
 
                     b.ToTable("image", "public");
                 });
@@ -120,12 +112,17 @@ namespace RESTAPI.Migrations
                     b.Property<int?>("genreid")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("imageid")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("pageid")
                         .HasColumnType("integer");
 
                     b.HasKey("id");
 
                     b.HasIndex("genreid");
+
+                    b.HasIndex("imageid");
 
                     b.HasIndex("pageid")
                         .IsUnique();
@@ -194,10 +191,15 @@ namespace RESTAPI.Migrations
                     b.Property<string>("PageTitle")
                         .HasColumnType("text");
 
+                    b.Property<int?>("imageid")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("userid")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("imageid");
 
                     b.HasIndex("userid");
 
@@ -256,7 +258,10 @@ namespace RESTAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("genreId")
+                    b.Property<int?>("genreId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("imageid")
                         .HasColumnType("integer");
 
                     b.Property<string>("title")
@@ -266,6 +271,8 @@ namespace RESTAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("genreId");
+
+                    b.HasIndex("imageid");
 
                     b.ToTable("theorypages", "public");
                 });
@@ -325,23 +332,9 @@ namespace RESTAPI.Migrations
 
             modelBuilder.Entity("RESTAPI.Models.Image", b =>
                 {
-                    b.HasOne("RESTAPI.Models.Location", "locations")
-                        .WithOne("image")
-                        .HasForeignKey("RESTAPI.Models.Image", "locationsId");
-
-                    b.HasOne("RESTAPI.Models.Page", "pages")
+                    b.HasOne("RESTAPI.Models.MusicExerciseOptions", null)
                         .WithMany("images")
-                        .HasForeignKey("pagesId");
-
-                    b.HasOne("RESTAPI.Models.TheoryPages", "theorypages")
-                        .WithMany("images")
-                        .HasForeignKey("theorypagesId");
-
-                    b.Navigation("locations");
-
-                    b.Navigation("pages");
-
-                    b.Navigation("theorypages");
+                        .HasForeignKey("MusicExerciseOptionsid");
                 });
 
             modelBuilder.Entity("RESTAPI.Models.Location", b =>
@@ -350,6 +343,10 @@ namespace RESTAPI.Migrations
                         .WithMany()
                         .HasForeignKey("genreid");
 
+                    b.HasOne("RESTAPI.Models.Image", "images")
+                        .WithMany("locations")
+                        .HasForeignKey("imageid");
+
                     b.HasOne("RESTAPI.Models.Page", "Page")
                         .WithOne("location")
                         .HasForeignKey("RESTAPI.Models.Location", "pageid");
@@ -357,6 +354,8 @@ namespace RESTAPI.Migrations
                     b.Navigation("Genre");
 
                     b.Navigation("Page");
+
+                    b.Navigation("images");
                 });
 
             modelBuilder.Entity("RESTAPI.Models.MusicExerciseOptions", b =>
@@ -372,6 +371,10 @@ namespace RESTAPI.Migrations
 
             modelBuilder.Entity("RESTAPI.Models.Page", b =>
                 {
+                    b.HasOne("RESTAPI.Models.Image", "images")
+                        .WithMany("pages")
+                        .HasForeignKey("imageid");
+
                     b.HasOne("RESTAPI.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("userid")
@@ -379,6 +382,8 @@ namespace RESTAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+
+                    b.Navigation("images");
                 });
 
             modelBuilder.Entity("RESTAPI.Models.PageGenre", b =>
@@ -415,11 +420,15 @@ namespace RESTAPI.Migrations
                 {
                     b.HasOne("RESTAPI.Models.Genre", "genre")
                         .WithMany("theoryPages")
-                        .HasForeignKey("genreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("genreId");
+
+                    b.HasOne("RESTAPI.Models.Image", "images")
+                        .WithMany("theorypages")
+                        .HasForeignKey("imageid");
 
                     b.Navigation("genre");
+
+                    b.Navigation("images");
                 });
 
             modelBuilder.Entity("RESTAPI.Models.Vote", b =>
@@ -448,9 +457,13 @@ namespace RESTAPI.Migrations
                     b.Navigation("theoryPages");
                 });
 
-            modelBuilder.Entity("RESTAPI.Models.Location", b =>
+            modelBuilder.Entity("RESTAPI.Models.Image", b =>
                 {
-                    b.Navigation("image");
+                    b.Navigation("locations");
+
+                    b.Navigation("pages");
+
+                    b.Navigation("theorypages");
                 });
 
             modelBuilder.Entity("RESTAPI.Models.MusicExercise", b =>
@@ -458,18 +471,16 @@ namespace RESTAPI.Migrations
                     b.Navigation("options");
                 });
 
+            modelBuilder.Entity("RESTAPI.Models.MusicExerciseOptions", b =>
+                {
+                    b.Navigation("images");
+                });
+
             modelBuilder.Entity("RESTAPI.Models.Page", b =>
                 {
                     b.Navigation("PageGenre");
 
-                    b.Navigation("images");
-
                     b.Navigation("location");
-                });
-
-            modelBuilder.Entity("RESTAPI.Models.TheoryPages", b =>
-                {
-                    b.Navigation("images");
                 });
 #pragma warning restore 612, 618
         }

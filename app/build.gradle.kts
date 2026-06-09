@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.glide)
     annotationProcessor(libs.glide.compiler)
+    implementation(libs.youtube.player)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

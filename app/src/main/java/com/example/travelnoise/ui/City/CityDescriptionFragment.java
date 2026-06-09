@@ -71,9 +71,9 @@ public class CityDescriptionFragment extends Fragment {
                 if(response.isSuccessful() && response.body() != null)
                 {
                     PageModel Page = response.body();
-                    if(Page.images.imageURL != null) {
+                    if(Page.images.get(0).imageURL != null) {
                         Glide.with(CityDescriptionFragment.this)
-                                .load(Page.images.imageURL)
+                                .load(Page.images.get(0).imageURL)
                                 .into(binding.imageView5);
                     }
                 }

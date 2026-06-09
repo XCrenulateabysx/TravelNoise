@@ -11,20 +11,24 @@ namespace RESTAPI.Models
 
             db.Database.Migrate();
 
+            // ---------------- GENRES ----------------
             if (!db.Genres.Any())
             {
                 db.Genres.AddRange(
-                    new Genre { 
+                    new Genre
+                    {
                         genrename = "Adventure",
                         genreTitle = "Jazz",
                         genreDescription = "A cool Jazz description"
                     },
-                    new Genre { 
+                    new Genre
+                    {
                         genrename = "Puzzle",
                         genreTitle = "Rock",
                         genreDescription = "A cool Rock description"
                     },
-                    new Genre { 
+                    new Genre
+                    {
                         genrename = "Racing",
                         genreTitle = "Country",
                         genreDescription = "A cool Country description"
@@ -33,9 +37,11 @@ namespace RESTAPI.Models
                 db.SaveChanges();
             }
 
-            var genres = db.Genres.AsNoTracking()
+            var genres = db.Genres
+                .AsNoTracking()
                 .ToDictionary(g => g.genrename!, g => g.id);
 
+            // ---------------- IMAGES ----------------
             if (!db.Images.Any())
             {
                 db.Images.AddRange(
@@ -46,6 +52,7 @@ namespace RESTAPI.Models
 
             var image = db.Images.First();
 
+            // ---------------- USERS ----------------
             if (!db.Users.Any())
             {
                 db.Users.AddRange(
@@ -60,6 +67,7 @@ namespace RESTAPI.Models
             var player1 = db.Users.First(u => u.Username == "player1");
             var tester = db.Users.First(u => u.Username == "tester");
 
+            // ---------------- THEORY PAGES (FIXED RELATIONSHIP) ----------------
             if (!db.TheoryPages.Any())
             {
                 db.TheoryPages.AddRange(
@@ -67,34 +75,39 @@ namespace RESTAPI.Models
                     {
                         title = "Physics Basics",
                         description = "Understanding movement in games",
-                        imageid = image.Id,
-                        category = "Harmony"
+                        category = "Harmony",
+                        genreId = genres["Adventure"]   // ✅ FIXED
                     },
                     new TheoryPages
                     {
                         title = "AI Behavior",
                         description = "How game AI reacts to players",
-                        imageid = image.Id,
-                        category = "Instruments"
+                        category = "Instruments",
+                        genreId = genres["Puzzle"]      // ✅ FIXED
                     },
                     new TheoryPages
                     {
                         title = "Level Design",
                         description = "Designing engaging game levels",
-                        imageid = image.Id,
-                        category = "Rythm"
+                        category = "Rhythm",
+                        genreId = genres["Racing"]      // fixed spelling too
                     },
                     new TheoryPages
                     {
-                        title = "HAAAARmony",
-                        description = "harrrrrrrrr",
-                        imageid = image.Id,
-                        category = "Chords"
+                        title = "Harmony Basics",
+                        description = "Understanding chords and structure",
+                        category = "Chords",
+                        genreId = genres["Adventure"]
                     }
                 );
                 db.SaveChanges();
             }
 
+            var theoryPages = db.TheoryPages
+                .AsNoTracking()
+                .ToDictionary(tp => tp.title!, tp => tp.id);
+
+            // ---------------- PAGES ----------------
             if (!db.Pages.Any())
             {
                 db.Pages.AddRange(
@@ -103,29 +116,28 @@ namespace RESTAPI.Models
                         PageTitle = "Adventure Guide",
                         PageDescription = "Adventure gameplay guide",
                         userid = admin.Id,
-                        imageid = image.Id
                     },
                     new Page
                     {
                         PageTitle = "Puzzle Guide",
                         PageDescription = "Puzzle solving techniques",
                         userid = player1.Id,
-                        imageid = image.Id
                     },
                     new Page
                     {
                         PageTitle = "Racing Guide",
                         PageDescription = "Racing mechanics explained",
                         userid = tester.Id,
-                        imageid = image.Id
                     }
                 );
                 db.SaveChanges();
             }
 
-            var pages = db.Pages.AsNoTracking()
+            var pages = db.Pages
+                .AsNoTracking()
                 .ToDictionary(p => p.PageTitle!, p => p.Id);
 
+            // ---------------- PAGE GENRES ----------------
             if (!db.PageGenres.Any())
             {
                 db.PageGenres.AddRange(
@@ -136,6 +148,7 @@ namespace RESTAPI.Models
                 db.SaveChanges();
             }
 
+            // ---------------- LOCATIONS ----------------
             if (!db.Locations.Any())
             {
                 db.Locations.AddRange(
@@ -147,7 +160,6 @@ namespace RESTAPI.Models
                         buttonX = "178dp",
                         buttonY = "300dp",
                         pageid = pages["Adventure Guide"],
-                        imageid = image.Id
                     },
                     new Location
                     {
@@ -157,7 +169,6 @@ namespace RESTAPI.Models
                         buttonX = "205dp",
                         buttonY = "235dp",
                         pageid = pages["Puzzle Guide"],
-                        imageid = image.Id
                     },
                     new Location
                     {
@@ -167,12 +178,12 @@ namespace RESTAPI.Models
                         buttonX = "130dp",
                         buttonY = "220dp",
                         pageid = pages["Racing Guide"],
-                        imageid = image.Id
                     }
                 );
                 db.SaveChanges();
             }
 
+            // ---------------- GAME DESCRIPTIONS ----------------
             if (!db.GameDescriptions.Any())
             {
                 db.GameDescriptions.AddRange(
@@ -183,6 +194,7 @@ namespace RESTAPI.Models
                 db.SaveChanges();
             }
 
+            // ---------------- PRACTICE ----------------
             if (!db.Practices.Any())
             {
                 db.Practices.AddRange(
@@ -193,6 +205,7 @@ namespace RESTAPI.Models
                 db.SaveChanges();
             }
 
+            // ---------------- VOTES ----------------
             if (!db.Votes.Any())
             {
                 db.Votes.AddRange(

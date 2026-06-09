@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace RESTAPI.Migrations
 {
     [DbContext(typeof(RESTAPIContext))]
-    partial class RESTAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20260609103034_relationshipsFix")]
+    partial class relationshipsFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,7 +60,12 @@ namespace RESTAPI.Migrations
                     b.Property<string>("genrename")
                         .HasColumnType("text");
 
+                    b.Property<int>("theoryPagesId")
+                        .HasColumnType("integer");
+
                     b.HasKey("id");
+
+                    b.HasIndex("theoryPagesId");
 
                     b.ToTable("genre", "public");
                 });
@@ -256,16 +264,11 @@ namespace RESTAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("genreId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("title")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("id");
-
-                    b.HasIndex("genreId");
 
                     b.ToTable("theorypages", "public");
                 });
@@ -321,6 +324,17 @@ namespace RESTAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("RESTAPI.Models.Genre", b =>
+                {
+                    b.HasOne("RESTAPI.Models.TheoryPages", "theoryPages")
+                        .WithMany("genre")
+                        .HasForeignKey("theoryPagesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("theoryPages");
                 });
 
             modelBuilder.Entity("RESTAPI.Models.Image", b =>
@@ -411,17 +425,6 @@ namespace RESTAPI.Migrations
                     b.Navigation("Page");
                 });
 
-            modelBuilder.Entity("RESTAPI.Models.TheoryPages", b =>
-                {
-                    b.HasOne("RESTAPI.Models.Genre", "genre")
-                        .WithMany("theoryPages")
-                        .HasForeignKey("genreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("genre");
-                });
-
             modelBuilder.Entity("RESTAPI.Models.Vote", b =>
                 {
                     b.HasOne("RESTAPI.Models.User", "User")
@@ -444,8 +447,6 @@ namespace RESTAPI.Migrations
             modelBuilder.Entity("RESTAPI.Models.Genre", b =>
                 {
                     b.Navigation("PageGenre");
-
-                    b.Navigation("theoryPages");
                 });
 
             modelBuilder.Entity("RESTAPI.Models.Location", b =>
@@ -469,6 +470,8 @@ namespace RESTAPI.Migrations
 
             modelBuilder.Entity("RESTAPI.Models.TheoryPages", b =>
                 {
+                    b.Navigation("genre");
+
                     b.Navigation("images");
                 });
 #pragma warning restore 612, 618

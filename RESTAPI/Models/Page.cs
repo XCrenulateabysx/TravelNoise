@@ -16,10 +16,7 @@ namespace RESTAPI.Models
         public Guid userid { get; set; }
 
         public Location? location { get; set; }
-        public int? imageid { get; set; }
-
-        public Image? images { get; set; }
-        [ForeignKey(nameof(userid))]
+        public ICollection<Image>? images { get; set; }
         public User? User { get; set; }
         public ICollection<PageGenre>? PageGenre { get; set; }
 

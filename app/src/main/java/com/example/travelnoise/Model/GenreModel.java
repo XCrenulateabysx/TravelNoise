@@ -8,5 +8,7 @@ public class GenreModel {
     public String genreTitle;
     public String genreDescription;
     public List<PageGenreModel> PageGenre;
-    public List<TheoryPageModel> theoryPages;
+    public int theoryPagesId;
+    public TheoryPageModel theoryPages;
+
 }

@@ -12,8 +12,7 @@ public class PageModel
     public String pageTitle;
 
     public UUID userid;
-    public int imagesid;
-    public ImageModel images;
+    public List<ImageModel> images;
     public int genreid;
     public LocationModel location;
     public UserModel user;

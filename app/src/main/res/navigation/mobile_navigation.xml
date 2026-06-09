@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/exerciseFragment"
-        android:name="com.example.travelnoise.ExerciseFragment"
+        android:name="com.example.travelnoise.ui.music.ExerciseFragment"
         android:label="fragment_exercise"
         tools:layout="@layout/fragment_exercise" />
 
