@@ -86,8 +86,8 @@ namespace RESTAPI.Models
                         RegionName = "Utrecht",
                         RegionDescription = "A very cool description",
                         genreid = genres["Adventure"],
-                        buttonX = "178dp",
-                        buttonY = "300dp",
+                        buttonX = 0.48f,
+                        buttonY = 0.51f,
                         pageid = pages["Adventure Guide"]
                     },
                     new Location
@@ -95,8 +95,8 @@ namespace RESTAPI.Models
                         RegionName = "Flevoland",
                         RegionDescription = "Logic challenges",
                         genreid = genres["Puzzle"],
-                        buttonX = "205dp",
-                        buttonY = "235dp",
+                        buttonX = 0.58f,
+                        buttonY = 0.38f,
                         pageid = pages["Puzzle Guide"]
                     },
                     new Location
@@ -104,8 +104,8 @@ namespace RESTAPI.Models
                         RegionName = "Noord-Holland",
                         RegionDescription = "Speed and competition",
                         genreid = genres["Racing"],
-                        buttonX = "130dp",
-                        buttonY = "220dp",
+                        buttonX = 0.38f,
+                        buttonY = 0.3f,
                         pageid = pages["Racing Guide"]
                     }
                 );

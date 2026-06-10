@@ -6,8 +6,8 @@ public class LocationModel {
     public int id ;
     public String regionName ;
     public String regionDescription ;
-    public String buttonX ;
-    public String buttonY ;
+    public float buttonX ;
+    public float buttonY ;
     public int pageid ;
     public int genreid ;
     public ImageModel image ;

@@ -52,10 +52,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
             android:id="@+id/MapLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
 
             <ImageView
                 android:id="@+id/imageView"
@@ -63,10 +64,10 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/tempmapimageprototype"
-                android:scaleType="fitCenter"
+                android:scaleType="fitXY"
                 android:src="@drawable/netherlands_map" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
