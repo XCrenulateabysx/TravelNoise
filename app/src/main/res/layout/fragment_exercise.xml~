@@ -92,7 +92,7 @@
                 android:textStyle="bold" />
 
             <androidx.media3.ui.PlayerView
-                android:id="@+id/harmonyPlayerView"
+                android:id="@+id/rhythmPlayerView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
 
@@ -221,10 +221,11 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="16dp"/>
 
-            <androidx.media3.ui.PlayerView
-                android:id="@+id/instrumentPlayerView"
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/instrumentsYoutubePlayer"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="220dp"
+                android:layout_marginBottom="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"

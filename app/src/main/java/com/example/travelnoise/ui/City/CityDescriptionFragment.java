@@ -95,7 +95,7 @@ public class CityDescriptionFragment extends Fragment {
                     {
                         Log.d("TEST", "onResponse: " + response);
                         MaterialButton button = new MaterialButton(requireContext());
-                        button.setText(Genre.genre.genrename);
+                        button.setText(Genre.genre.genreTitle);
 
                         button.setOnClickListener(v -> {
                             Bundle bundle = new Bundle();

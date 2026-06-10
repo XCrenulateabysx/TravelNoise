@@ -34,7 +34,7 @@ namespace RESTAPI.Controllers
         [HttpGet("GetMusicExercise/{id}")]
         public async Task<ActionResult<IEnumerable<MusicExercise>>> GetMusicExercise(int id)
         {
-            var exercise = await _context.MusicExercises.Where(me => me.id == id).Include(mep => mep.options).ThenInclude(mep => mep.images).ToListAsync();
+            var exercise = await _context.MusicExercises.Where(me => me.id == id).Include(mep => mep.options).ThenInclude(mep => mep.images).FirstOrDefaultAsync();
             return Ok(exercise);
         }
     }

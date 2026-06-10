@@ -11,6 +11,7 @@ namespace RESTAPI.Models
         public string? genrename { get; set; }
         public string? genreTitle { get; set;  }
         public string? genreDescription { get; set;  }
+        public ICollection<MusicExercise>? MusicExercises { get; set; }
         public ICollection<PageGenre>? PageGenre{  get; set; }
         public ICollection<TheoryPages>? theoryPages { get; set; }
 

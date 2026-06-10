@@ -9,6 +9,9 @@ namespace RESTAPI.Models
         public string type { get; set;  }
         public string? question { get; set; }
         public string? videoUrl { get; set; }
+        public int? set { get; set; }
+        public int? genreId { get; set; }
+        public Genre? genre { get; set; }
         public ICollection<MusicExerciseOptions> options { get; set; }
     }
 }

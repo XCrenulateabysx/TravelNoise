@@ -10,6 +10,5 @@ public class GenreModel {
     public List<PageGenreModel> PageGenre;
     public int theoryPagesId;
     public TheoryPageModel theoryPages;
-    public List<MusicExerciseModel> musicExercise;
 
 }

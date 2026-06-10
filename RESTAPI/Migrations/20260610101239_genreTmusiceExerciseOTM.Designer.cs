@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace RESTAPI.Migrations
 {
     [DbContext(typeof(RESTAPIContext))]
-    partial class RESTAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20260610101239_genreTmusiceExerciseOTM")]
+    partial class genreTmusiceExerciseOTM
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,9 +154,6 @@ namespace RESTAPI.Migrations
 
                     b.Property<string>("question")
                         .HasColumnType("text");
-
-                    b.Property<int?>("set")
-                        .HasColumnType("integer");
 
                     b.Property<string>("type")
                         .IsRequired()
