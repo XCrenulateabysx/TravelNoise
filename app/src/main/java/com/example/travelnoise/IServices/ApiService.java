@@ -2,6 +2,7 @@ package com.example.travelnoise.IServices;
 
 
 import com.example.travelnoise.Model.LocationModel;
+import com.example.travelnoise.Model.MusicExerciseModel;
 import com.example.travelnoise.Model.PageGenreModel;
 import com.example.travelnoise.Model.PageModel;
 import com.example.travelnoise.Model.TheoryPageModel;
@@ -25,4 +26,8 @@ public interface ApiService {
 
     @GET("api/Theory/GetPage/{id}/{category}")
     Call<TheoryPageModel> getPage(@Path("id") int id, @Path("category") String category);
+
+    @GET("api/Exercise/GetMusicExercise/{id}")
+    Call<MusicExerciseModel> getMusicExercise(@Path("id") int id);
+
 }

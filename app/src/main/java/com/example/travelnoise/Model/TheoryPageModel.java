@@ -8,8 +8,7 @@ public class TheoryPageModel {
     public String title;
     public String description;
     public String category;
-    public int imagesid;
-    public ImageModel images;
-    public int genreId;
+    public List<ImageModel> images;
+    public List<GenreModel> genre;
 
 }

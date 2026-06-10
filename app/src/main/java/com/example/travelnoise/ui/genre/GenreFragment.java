@@ -24,6 +24,7 @@ public class GenreFragment extends Fragment {
 
 
     private int mGenreId;
+    private int mTheoryId;
     private String mGenreTitle;
     private String mGenreDescription;
 
@@ -38,6 +39,7 @@ public class GenreFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mGenreId = getArguments().getInt(BundleKeys.ARG_GENREID);
+            mTheoryId = getArguments().getInt(BundleKeys.ARG_GENREID);
             mGenreTitle = getArguments().getString(BundleKeys.ARG_GENRETITLE);
             mGenreDescription = getArguments().getString(BundleKeys.ARG_GENREDESCRIPTION);
         }

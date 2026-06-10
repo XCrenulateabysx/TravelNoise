@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -41,7 +42,7 @@ public class HomeFragment extends Fragment {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Log.d("TEST", "onResponse: no response" );
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        ConstraintLayout layout = binding.MapLayout;
+        FrameLayout layout = binding.MapLayout;
         apiService.getRegions().enqueue(new Callback<List<LocationModel>>()
         {
             @Override
@@ -55,22 +56,24 @@ public class HomeFragment extends Fragment {
                     for ( LocationModel location: locations )
                     {
                         int size = dpToPx(28);
+
+                        int width = layout.getWidth();
+                        int height = layout.getHeight();
+
+                        int px = (int) (location.buttonX * width);
+                        int py = (int) (location.buttonY * height);
+
                         ImageButton imageButton = new ImageButton(requireContext());
                         imageButton.setImageResource(R.drawable.star);
                         imageButton.setBackgroundColor(Color.TRANSPARENT);
                         imageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
                         imageButton.setPadding(0, 0, 0, 0);
 
-                        ConstraintLayout.LayoutParams params =
-                                new ConstraintLayout.LayoutParams(size, size);
+                        FrameLayout.LayoutParams params =
+                                new FrameLayout.LayoutParams(size, size);
 
-                        params.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
-                        params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
-
-                        int x = parseDp(location.buttonX);
-                        int y = parseDp(location.buttonY);
-
-                        params.setMargins(dpToPx(x), dpToPx(y), 0, 0);
+                        params.leftMargin = px - size / 2;
+                        params.topMargin = py - size / 2;
 
 
 

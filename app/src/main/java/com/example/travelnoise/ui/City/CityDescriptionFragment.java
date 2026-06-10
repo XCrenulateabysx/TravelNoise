@@ -71,9 +71,9 @@ public class CityDescriptionFragment extends Fragment {
                 if(response.isSuccessful() && response.body() != null)
                 {
                     PageModel Page = response.body();
-                    if(Page.images.imageURL != null) {
+                    if(Page.images.get(0).imageURL != null) {
                         Glide.with(CityDescriptionFragment.this)
-                                .load(Page.images.imageURL)
+                                .load(Page.images.get(0).imageURL)
                                 .into(binding.imageView5);
                     }
                 }
@@ -95,7 +95,7 @@ public class CityDescriptionFragment extends Fragment {
                     {
                         Log.d("TEST", "onResponse: " + response);
                         MaterialButton button = new MaterialButton(requireContext());
-                        button.setText(Genre.genre.genrename);
+                        button.setText(Genre.genre.genreTitle);
 
                         button.setOnClickListener(v -> {
                             Bundle bundle = new Bundle();

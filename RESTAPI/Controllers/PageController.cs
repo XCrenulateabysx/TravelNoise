@@ -17,9 +17,9 @@ namespace RESTAPI.Controllers
         }
 
         [HttpGet("GetPage/{id}")]
-        public async Task<ActionResult<IEnumerable<Page>>> GetPage(int id)
+        public async Task<ActionResult<Page>> GetPage(int id)
         {
-            var PageInfo = await _context.Pages.Include(p => p.images).FirstOrDefaultAsync(p => p.images.Id== id);
+            var PageInfo = await _context.Pages.Include(p => p.images).FirstOrDefaultAsync(p => p.Id== id);
             return Ok(PageInfo);
         }
 

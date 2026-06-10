@@ -3,6 +3,7 @@ package com.example.travelnoise.ui.music;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +68,7 @@ public class TheoryFragment extends Fragment {
                 binding.TheoryDescription.setText(pageInfo.description);
 
                 Glide.with(TheoryFragment.this)
-                        .load(pageInfo.images.imageURL)
+                        .load(pageInfo.images.get(0).imageURL)
                         .into(binding.TheoryPreviewImage);
 
             }
@@ -76,6 +77,15 @@ public class TheoryFragment extends Fragment {
             public void onFailure(Call<TheoryPageModel> call, Throwable throwable) {
 
             }
+        });
+
+        binding.startPracticeBtn.setOnClickListener(v ->
+        {
+            Bundle bundle = new Bundle();
+            bundle.putInt(BundleKeys.ARG_GENREID, mGenreId);
+            bundle.putString(BundleKeys.ARG_CATEGORY, mCategory);
+            Navigation.findNavController(v)
+                    .navigate(R.id.action_theoryFragment_to_exerciseFragment, bundle);
         });
 
 

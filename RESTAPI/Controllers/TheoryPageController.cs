@@ -26,7 +26,7 @@ namespace RESTAPI.Controllers
         [HttpGet("GetPage/{id}/{category}")]
         public async Task<ActionResult<IEnumerable<TheoryPages>>> GetTheoryPage(int id, string category)
         {
-            var TheoryPageInfo = await _context.TheoryPages.Where(tp => tp.genre.id == id && tp.category == category).Include(tp => tp.images).FirstOrDefaultAsync();
+            var TheoryPageInfo = await _context.TheoryPages.Where(tp => tp.genreId == id && tp.category == category).Include(tp => tp.images).FirstOrDefaultAsync();
             return Ok(TheoryPageInfo);
         }
 

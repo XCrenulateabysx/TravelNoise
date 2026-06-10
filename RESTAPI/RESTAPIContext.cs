@@ -18,6 +18,9 @@ public class RESTAPIContext : DbContext
     public DbSet<Vote> Votes => Set<Vote>();
     public DbSet<PageGenre> PageGenres => Set<PageGenre>();
     public DbSet<Image> Images => Set<Image>();
+    public DbSet<MusicExercise> MusicExercises => Set<MusicExercise>();
+    public DbSet<MusicExerciseOptions> MusicExerciseOptions => Set<MusicExerciseOptions>();
+    //public DbSet<InstrumentExercise> InstrumentExercises => Set<InstrumentExercise>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

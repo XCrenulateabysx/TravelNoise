@@ -3,19 +3,16 @@ package com.example.travelnoise.Model;
 import java.util.List;
 
 public class LocationModel {
-    public int id;
-    public String buttonX;
-    public String buttonY;
-    public String regionName;
-    public String regionDescription;
-    public int pageid;
-    public int genreid;
-    public int theoryId;
-    public int imageid;
-    public ImageModel images;
-    public TheoryPageModel TheoryPages;
-    public PageModel page;
-    public GenreModel Genre;
+    public int id ;
+    public String regionName ;
+    public String regionDescription ;
+    public float buttonX ;
+    public float buttonY ;
+    public int pageid ;
+    public int genreid ;
+    public ImageModel image ;
+    public PageModel page ;
+    public GenreModel genre ;
     @Override
     public String toString() {
         return "LocationModel{" +
