@@ -27,7 +27,7 @@ public interface ApiService {
     @GET("api/Theory/GetPage/{id}/{category}")
     Call<TheoryPageModel> getPage(@Path("id") int id, @Path("category") String category);
 
-    @GET("api/Exercise/GetMusicExercise/{id}")
-    Call<MusicExerciseModel> getMusicExercise(@Path("id") int id);
+    @GET("api/Exercise/GetMusicExercise/{id}/{category}")
+    Call<MusicExerciseModel> getMusicExercise(@Path("id") int id, @Path("category") String category);
 
 }

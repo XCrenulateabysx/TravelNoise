@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -92,26 +93,26 @@ public class ExerciseFragment extends Fragment {
             case "Harmony":
                 binding.HarmonyExercise.setVisibility(View.VISIBLE);
                 submitButton(binding.harmonySubmitBtn);
-                fillExerciseData("Harmony", 1, binding.harmonyAnswerContainer, binding.harmonyPlayerView);
+                fillExerciseData("Harmony", mGenreId, binding.harmonyAnswerContainer, binding.harmonyPlayerView, binding.harmonyQuestion);
 
                 break;
 
             case "Chords":
                 binding.ChordExercise.setVisibility(View.VISIBLE);
                 submitButton(binding.chordsSubmitBtn);
-                fillExerciseData("Chords", mGenreId, binding.chordsAnswerContainer, binding.chordPlayerView);
+                fillExerciseData("Chords", mGenreId, binding.chordsAnswerContainer, binding.chordPlayerView, binding.chordQuestion);
                 break;
 
             case "Rhythm":
                 binding.RythmExercise.setVisibility(View.VISIBLE);
                 submitButton(binding.rhythmSubmitBtn);
-                fillExerciseData("Rhythm", mGenreId, binding.rhythmAnswerContainer, binding.rhythmPlayerView);
+                fillExerciseData("Rhythm", mGenreId, binding.rhythmAnswerContainer, binding.rhythmPlayerView, binding.rhythmQuestion);
                 break;
 
             case "Instruments":
                 binding.InstrumentsExercise.setVisibility(View.VISIBLE);
                 submitButton(binding.instrumentsSubmitBtn);
-                fillExerciseData("Instruments", mGenreId, binding.instrumentsAnswerContainer, binding.instrumentPlayerView);
+                fillExerciseData("Instruments", mGenreId, binding.instrumentsAnswerContainer, binding.instrumentPlayerView, binding.instrumentQuestion);
                 break;
 
             default:
@@ -124,14 +125,15 @@ public class ExerciseFragment extends Fragment {
         }
     }
 
-    private void fillExerciseData(String category, int id, LinearLayout layout, PlayerView mp3player) {
+    private void fillExerciseData(String category, int id, LinearLayout layout, PlayerView mp3player, TextView question) {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        apiService.getMusicExercise(id).enqueue(new Callback<MusicExerciseModel>() {
+        apiService.getMusicExercise(id, category).enqueue(new Callback<MusicExerciseModel>() {
             @Override
             public void onResponse(Call<MusicExerciseModel> call, Response<MusicExerciseModel> response) {
                 Log.d("TEST", "onResponse: " + response);
                 MusicExerciseModel exercise = response.body();
+                question.setText(exercise.question);
                 playAudio(exercise.videoUrl, mp3player);
                 for (MusicExerciseOptionsModel exerciseOption : exercise.options) {
                     MaterialCardView answerCard = new MaterialCardView(requireContext());
@@ -164,7 +166,7 @@ public class ExerciseFragment extends Fragment {
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT));
 
-                    image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                     Glide.with(ExerciseFragment.this)
                             .load(exerciseOption.images.get(0).imageURL)
                             .into(image);

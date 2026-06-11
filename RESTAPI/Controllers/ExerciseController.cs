@@ -31,10 +31,10 @@ namespace RESTAPI.Controllers
             return Ok(exercise);
         }
 
-        [HttpGet("GetMusicExercise/{id}")]
-        public async Task<ActionResult<IEnumerable<MusicExercise>>> GetMusicExercise(int id)
+        [HttpGet("GetMusicExercise/{id}/{category}")]
+        public async Task<ActionResult<IEnumerable<MusicExercise>>> GetMusicExercise(int id, string category)
         {
-            var exercise = await _context.MusicExercises.Where(me => me.id == id).Include(mep => mep.options).ThenInclude(mep => mep.images).FirstOrDefaultAsync();
+            var exercise = await _context.MusicExercises.Where(me => me.genreId == id && me.type == category).Include(mep => mep.options).ThenInclude(mep => mep.images).FirstOrDefaultAsync();
             return Ok(exercise);
         }
     }
